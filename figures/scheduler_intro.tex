@@ -1,0 +1,93 @@
+\begin{center}
+
+\definecolor{job1color}{RGB}{180,180,180}
+
+\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, every node/.style={transform shape}]
+
+	%timeline
+	\node (tstart) at (-2, 0) {};
+	\node (tend) at (12, 0) {};
+	\draw[->] (tstart.center) -- (tend.center);
+	\node[below=0.2cm of tend] {time (a.u.)};
+
+	% floating job
+	\onslide<1-5> {
+		\node[draw, fill=job1color, minimum height=1cm, minimum width=4cm] (job) at (4.5, 3.5) {};
+	}
+
+	\onslide<1>{
+		\node[above=0.2cm of job] {Job \small{$a$}};
+	}
+
+	% budget marker
+	\onslide<2-5> {
+		\draw[<->] (2.5, 4.2) -- (6.5, 4.2);
+		\node[above=0.2cm of job] {budget ($c_a$)};
+	}
+
+	% release marker
+	\onslide<3-7> {
+		\node (tjobarrival) at (2, 2.5) {$t = 2$};
+		\node[above left=0.3cm of tjobarrival] (releasetext) {release date ($r_a$)};
+		\draw[->, -{Latex[length=1mm,width=1mm]}] (releasetext) to [out=270,in=180] (tjobarrival);
+		\draw[dashed] (tjobarrival) -- ($(tstart)!(tjobarrival)!(tend)$);
+	}
+
+	% deadline marker
+	\onslide<4-7> {
+		\node (tjobdeadline) at (7, 2.5) {$t = 7$};
+		\node[above right=0.3cm of tjobdeadline] (deadlinetext) {deadline ($d_a$)};
+		\draw[->, -{Latex[length=1mm,width=1mm]}] (deadlinetext) to [out=270,in=0] (tjobdeadline);
+		\draw[dashed] (tjobdeadline) -- ($(tstart)!(tjobdeadline)!(tend)$);
+	}
+
+	% available execution time
+	\onslide<5-> {
+		\node (job1height) at (2, 1) {};
+
+		\draw (tjobarrival |- job1height) -- (tjobdeadline |- tend) node [midway, draw, fill=white, minimum width = 5cm, minimum height = 1cm] (execperiod) {};
+		\node[draw, fill=white, pattern=south west lines, minimum width = 5cm, minimum height = 1cm] at (execperiod) {};
+	}
+
+	\onslide<5> {
+		\node[above= 0.2cm of execperiod] {Job's execution period};
+	}
+
+	\onslide<6> {
+		\node (tjobduration1) at (6, 2) {$t = 6$};
+		\node[draw, fill=job1color, minimum width = 4cm, minimum height = 1cm] (job1) at (4, 0.5) {};
+		\node[below=0.2cm of $(tstart)!(tjobarrival)!(tend)$] (startduration1) {}; 
+		\node[below=0.2cm of $(tstart)!(tjobduration1)!(tend)$] (endduration1) {}; 
+		\draw[<->] (startduration1.center) -- (endduration1.center) node [midway,below] {budget ($c_a$)};
+		\draw[dashed] (tjobduration1) -- ($(tstart)!(tjobduration1)!(tend)$);
+	}
+
+	\onslide<7> {
+		\node (tjobduration2) at (3, 2) {$t = 3$};
+		\node[draw, fill=job1color, minimum width = 4cm, minimum height = 1cm] (job2) at (5, 0.5) {};
+		\node[below=0.2cm of $(tstart)!(tjobduration2)!(tend)$] (startduration2) {}; 
+		\node[below=0.2cm of $(tstart)!(tjobdeadline)!(tend)$] (endduration2) {}; 
+		\draw[<->] (startduration2.center) -- (endduration2.center) node [midway,below] {budget ($c_a$)};
+		\draw[dashed] (tjobduration2) -- ($(tstart)!(tjobduration2)!(tend)$);
+	}
+
+	%% Second part with the new job
+
+	\onslide<8-> {
+		\node (tjobarrival2) at (2, -0.5) {$r_a$};
+		\draw[dashed] (tjobarrival2) -- ($(tstart)!(tjobarrival2)!(tend)$);
+
+		\node (tjobdeadline2) at (7, -0.5) {$d_a$};
+		\draw[dashed] (tjobdeadline2) -- ($(tstart)!(tjobdeadline2)!(tend)$);
+	}
+
+	\only<8> {
+		\node[draw, fill=job1color, minimum width = 4cm, minimum height = 1cm] (job3) at (4, 0.5) {};
+	}
+
+	\onslide<9> {
+			
+	}
+
+\end{tikzpicture}
+\end{center}
