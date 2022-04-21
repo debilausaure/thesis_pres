@@ -1,6 +1,7 @@
 \begin{center}
 
 \definecolor{job1color}{RGB}{180,180,180}
+\definecolor{job2color}{RGB}{255,70,70}
 
 \begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, every node/.style={transform shape}]
 
@@ -81,12 +82,57 @@
 		\draw[dashed] (tjobdeadline2) -- ($(tstart)!(tjobdeadline2)!(tend)$);
 	}
 
-	\only<8> {
+	\onslide<8-10> {
 		\node[draw, fill=job1color, minimum width = 4cm, minimum height = 1cm] (job3) at (4, 0.5) {};
 	}
 
+	\only<8-9> {
+		\node[draw, fill=job2color, minimum width = 1cm, minimum height = 1cm] (job4) at (4.5, 3.5) {};
+		\node[above=0.2cm of job4] {Job \small{$b$}};
+	}
+
+	\onslide<9-> {
+		% Red release
+		\node (tjobarrival2) at (3, 2.5) {};
+		\draw[dashed] (tjobarrival2) -- ($(tstart)!(tjobarrival2)!(tend)$);
+
+		% Red deadline
+		\node (tjobdeadline2) at (6, 2.5) {};
+		\draw[dashed] (tjobdeadline2) -- ($(tstart)!(tjobdeadline2)!(tend)$);
+
+		% Red exec period
+		\node (job2height) at (2, 2) {};
+		\draw (tjobarrival2 |- job2height) -- (tjobdeadline2 |- job1height) node [midway, draw, fill=white, minimum width = 3cm, minimum height = 1cm] (execperiod2) {};
+		\node[draw, pattern color=job2color, pattern=south west lines, minimum width = 3cm, minimum height = 1cm] at (execperiod2) {};
+	}
+
 	\onslide<9> {
-			
+		\node[above=0.0cm of tjobarrival2] (arrivalmarker) {$t = 3$};
+		\node[above=0.0cm of tjobdeadline2] (deadlinemarker) {$t = 6$};
+		\node[above=0.0cm of arrivalmarker] {$r_b$};
+		\node[above=0.0cm of deadlinemarker] {$d_b$};
+	}
+
+	\onslide <10-> {
+		\node[above=0.0cm of tjobarrival2] {$r_b$};
+		\node[above=0.0cm of tjobdeadline2] {$d_b$};
+		\node (tjob2done) at (4, 2.5) {};
+		\draw[dashed] (tjob2done) -- ($(tstart)!(tjob2done)!(tend)$);
+	}
+
+	\onslide<10-11> {
+		\node[draw, fill=job2color, minimum width = 1cm, minimum height = 1cm] (job5) at (3.5, 1.5) {};
+	}
+
+	\onslide<10> {
+		\node (deadlinecomp) at (4.5, 4) {$d_b < d_a$};
+		\draw[->, -{Latex[length=1mm,width=1mm]}] (deadlinecomp) to [out=270,in=90] (job5);
+		\node[below=0.15cm of job5, color=job2color] {\Huge{!}};
+	}
+
+	\onslide<11> {
+		\node[draw, fill=job1color, minimum width = 1cm, minimum height = 1cm] (job6) at (2.5, 0.5) {};
+		\node[draw, fill=job1color, minimum width = 3cm, minimum height = 1cm] (job7) at (5.5, 0.5) {};
 	}
 
 \end{tikzpicture}
