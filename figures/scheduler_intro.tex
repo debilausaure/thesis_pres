@@ -74,7 +74,7 @@
 
 	%% Second part with the new job
 
-	\onslide<8-> {
+	\onslide<8-11> {
 		\node (tjobarrival2) at (2, -0.5) {$r_a$};
 		\draw[dashed] (tjobarrival2) -- ($(tstart)!(tjobarrival2)!(tend)$);
 
@@ -91,7 +91,7 @@
 		\node[above=0.2cm of job4] {Job \small{$b$}};
 	}
 
-	\onslide<9-> {
+	\onslide<9-11> {
 		% Red release
 		\node (tjobarrival2) at (3, 2.5) {};
 		\draw[dashed] (tjobarrival2) -- ($(tstart)!(tjobarrival2)!(tend)$);
@@ -113,7 +113,7 @@
 		\node[above=0.0cm of deadlinemarker] {$d_b$};
 	}
 
-	\onslide <10-> {
+	\onslide <10-11> {
 		\node[above=0.0cm of tjobarrival2] {$r_b$};
 		\node[above=0.0cm of tjobdeadline2] {$d_b$};
 		\node (tjob2done) at (4, 2.5) {};
@@ -130,10 +130,37 @@
 		\node[below=0.15cm of job5, color=job2color] {\Huge{!}};
 	}
 
-	\onslide<11> {
+	\onslide<11-> {
 		\node[draw, fill=job1color, minimum width = 1cm, minimum height = 1cm] (job6) at (2.5, 0.5) {};
 		\node[draw, fill=job1color, minimum width = 3cm, minimum height = 1cm] (job7) at (5.5, 0.5) {};
 	}
 
+	\onslide<12-> {
+		\node[draw, fill=job2color, minimum width = 1cm, minimum height = 1cm] (job8) at (3.5, 0.5) {};
+	}
+
+	\onslide<12> {
+		\node (t1) at (1,2) {$t=1$};
+		\draw[dashed] (t1) -- ($(tstart)!(t1)!(tend)$);
+		\node[above=0.0cm of t1] {$\text{election function}(1) = \varnothing$};
+	}
+
+	\onslide<13> {
+		\node (t2) at (2,2) {$t=2$};
+		\draw[dashed] (t2) -- ($(tstart)!(t2)!(tend)$);
+		\node[above=0.0cm of t2] {$\text{election function}(2) = \text{Job}~a$};
+	}
+
+	\onslide<14> {
+		\node (t3) at (3,2) {$t=3$};
+		\draw[dashed] (t3) -- ($(tstart)!(t3)!(tend)$);
+		\node[above=0.0cm of t3] {$\text{election function}(3) = \text{Job}~b$};
+	}
+
+	\onslide<15> {
+		\node (t4) at (4,2) {$t=4$};
+		\draw[dashed] (t4) -- ($(tstart)!(t4)!(tend)$);
+		\node[above=0.0cm of t4] {$\text{election function}(4) = \text{Job}~a$};
+	}
 \end{tikzpicture}
 \end{center}
