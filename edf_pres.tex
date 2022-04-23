@@ -123,7 +123,24 @@
 
 \section{Overview}
 
-\highlightedFrame[First formally proven implementation\\of an EDF scheduler for arbitrary sequences of jobs]{Claim\\[1cm]}
+\begin{frame}[fragile]
+	\frametitle{Motivations}
+	\begin{itemize}
+		\item{Critical software of embedded systems}
+		\item{EDF is optimal and well understood}
+		\item{Experiment with our proof methodology}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Aspirations}
+	\begin{itemize}
+		\item{Proof of concept - not a production ready scheduler}
+		\item{Share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\highlightedFrame[First formally proven implementation\\of an earliest deadline first scheduler for arbitrary sequences of jobs]{}%Claim\\[1cm]}
 
 \begin{frame}[fragile]
 	\frametitle{Overview of the scheduler}
@@ -138,25 +155,48 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Earliest Deadline First Scheduler}
+	\frametitle{Election function of an earliest deadline first scheduler}
 
 	\input{figures/scheduler_intro.tex}
 \end{frame}
 
 
-
-
 \begin{frame}[fragile]
 	\frametitle{General informations about the scheduler}
 
+	\begin{itemize}
+		\item{Schedules arbitrary sequences of jobs (as opposed to \emph{tasks})}
+		\item{Periodically called}
+		\item{Online \footnote{: while the election function schedules online, our scheduler feeds it hard coded jobs for simplicity}}
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%	Section proof
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proofs \& Hypotheses}
+
+\begin{frame}[fragile]
+	\frametitle{So that's great and all but what did you prove ?}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Schedulability hypothesis}
+
+	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
+	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the jobs are \emph{schedulable}.
+
+	\begin{gather}
+		\forall ~t, t'. ~t < t' \implies
+		\sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
+	\end{gather}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Models \& Implementation}
-
-
 
 \begin{frame}[fragile]
 	\frametitle{Model \& implementation}
@@ -175,21 +215,6 @@
 
 \begin{frame}[fragile]
 	\frametitle{Back-ends}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	Section proof
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proofs}
-
-\begin{frame}[fragile]
-	\frametitle{So that's great and all but what did you prove ?}
-
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Schedulability}
-	
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
