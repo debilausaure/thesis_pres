@@ -117,12 +117,6 @@
 	\tableofcontents
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	Overview
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Overview}
-
 \begin{frame}[fragile]
 	\frametitle{Motivations}
 	\begin{itemize}
@@ -139,6 +133,13 @@
 		\item{Share our conception and understanding of software proofs}
 	\end{itemize}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%	Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Overview}
 
 \highlightedFrame[First formally proven implementation\\of an earliest deadline first scheduler for arbitrary sequences of jobs]{}%Claim\\[1cm]}
 
@@ -177,22 +178,109 @@
 \section{Proofs \& Hypotheses}
 
 \begin{frame}[fragile]
-	\frametitle{So that's great and all but what did you prove ?}
+	\frametitle{So what did we prove ?}
+
+	The election function is proved \emph{correct} under reasonable assumptions :\\
+	schedulable job sets are scheduled such that no job misses its deadline.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Schedulability property}
+
+	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
+	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the job set is \emph{schedulable}.
+
+	\begin{definition}[Schedulability property]
+	\[
+		\text{schedulable} \iff \forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
+	\]
+	\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Additional "well-formedness" assumptions}
+
+	For each job :
+	\begin{itemize}
+		\item{$r_i + c_i \leq d_i$ : the deadline comes late enough for the job to complete its execution if executed alone on the processor}
+		\item{$0 < \delta_j \leq c_j$ : the actual duration $\delta$ of a job is strictly positive and less than its budget $c$}
+		\item{unique identifiers}
+		\item{released exactly once}
+	\end{itemize}
+\end{frame}
+
+\highlightedFrame[]{Three~~steps~~to~~reach correctness}
+
+\begin{frame}[fragile]
+	\frametitle{Earliest deadline first policy}
+	\begin{block}{EDF scheduling policy}
+		For any job $j$ and any time instant $t$, if the job $j$ is running at instant $t$, then for any other job $j'$ that is ready to run at the same instant, it holds that $d_j \leq d_{j'}$.
+	\end{block}
+
+	\vspace{0.5cm}
+
+	Applying the policy on a job set (up to a certain time instant $t$) is defined as :
+	\begin{center}
+		EdfPolicyUpTo $t$
+	\end{center}
+	
+	\begin{block}{EDF policy correctnesss property}
+	\vspace{-0.2cm}
+	\[
+		\text{schedulable} \implies \forall j. \forall t.~~\text{EdfPolicyUpTo}~t \implies \neg \text{overdue}~j~t
+	\]
+	\end{block}
 
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Schedulability hypothesis}
+	\frametitle{Correctness of an intermediate election function}
 
-	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
-	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the jobs are \emph{schedulable}.
+	Implement an idealised, functional (non-translatable) election function that acts like the final one.\\[0.5cm]
 
-	\begin{gather}
-		\forall ~t, t'. ~t < t' \implies
-		\sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
-	\end{gather}
+	The next step is to prove it implements the EDF policy defined previously.
+
+	\begin{block}{Functional election function implements EDF policy}
+	\vspace{-0.2cm}
+	\[
+		\forall t, \forall o, \forall s.~~
+		\texttt{functional\_scheduler}(t) = (o, s) \implies
+		\text{EdfPolicyUpTo}~(\text{now}~s).
+	\]
+	\end{block}
+
+	\vspace{0.5cm}
+
+	From this property follows the correctness of this idealised election function.
+
 \end{frame}
 
+\begin{frame}[fragile]
+	\frametitle{Correctness of the election function}
+
+	Implement the final, compilable to C, imperative election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
+
+	The next step is to prove that it acts the same way as the functional one.
+
+	\begin{block}{Actual election function has same effects as functional}
+		\vspace{-0.6cm}
+		\begin{gather*}
+			\forall t.\\
+			\{
+			    ~\lambda~\textit{env}~s. ~\textit{env} = E \land s = \textit{init}~
+			\}\\
+			\texttt{scheduler}~(t)\\
+			\{
+			    ~\lambda~o~s'. ~\texttt{functional\_scheduler}~(t) = (o,s')~
+			\}
+		\end{gather*}
+	\end{block}
+
+	\vspace{0.5cm}
+
+	From this property follows the correctness of the scheduler.
+
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
