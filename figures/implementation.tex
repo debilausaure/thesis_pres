@@ -1,0 +1,26 @@
+\begin{center}
+\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, every node/.style={transform shape}]
+
+	\onslide<1-> {
+		\node (election) at (0, 1.5) [fill=proofgreen, draw, semithick, minimum height=2cm, minimum width=4cm] {};
+		\node at (election) [fill=white, draw, semithick, minimum height=1.75cm, minimum width=3.75cm] {Election Function};
+
+		\node (state) at (1.5, -1.5) [draw, semithick, fill=implementation, minimum height=2cm, minimum width=2cm] {};
+		\node at (state) [fill=white, draw, semithick, minimum height=2cm, minimum width=1.8cm] {State};
+
+		\node (interface) at (-1.5, -1.5) [draw, semithick, fill=implementation, minimum height=2cm, minimum width=2cm] {};
+		\node at (interface) [fill=white, draw, semithick, minimum height=2cm, minimum width=1.8cm] {Interface};
+
+		\node[draw, semithick, minimum height = 5cm, minimum width = 3cm, fill=implementation] (backend) at (-5, 0) {Back-end};
+		\node at (backend) [fill=white, draw, semithick, minimum height = 5cm, minimum width=2.75cm] {Back-end};
+	}
+
+	\onslide<2-> {
+		\node (text) at (-2, -3.5) {\textbf{Actual} implementation\\Different from the model, but arguably close enough};
+		\draw[->, -{Latex[length=1mm,width=1mm]}] (text) to [out=20, in=270] (state);
+		\draw[->, -{Latex[length=1mm,width=1mm]}] (text) to [out=90, in=270] (interface);
+		\draw[->, -{Latex[length=1mm,width=1mm]}] (text) to [out=150, in=270] (backend);
+	}
+
+\end{tikzpicture}
+\end{center}

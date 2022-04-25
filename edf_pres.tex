@@ -14,6 +14,7 @@
 
 \tikzfading[name=fade right, left color=transparent!0, right color=transparent!100]
 \tikzfading[name=fade left, left color=transparent!100, right color=transparent!0]
+\tikzfading[name=fade out, inner color=transparent!0, outer color=transparent!100]
 
 %define hatched pattern
 \pgfdeclarepatternformonly{south west lines}{\pgfqpoint{-0pt}{-0pt}}{\pgfqpoint{3pt}{3pt}}{\pgfqpoint{3pt}{3pt}}{
@@ -141,7 +142,7 @@
 
 \section{Overview}
 
-\highlightedFrame[First formally proven implementation\\of an earliest deadline first scheduler for arbitrary sequences of jobs]{}%Claim\\[1cm]}
+\highlightedFrame[First formally proven implementation\\of an Earliest Deadline First scheduler for arbitrary sequences of jobs]{}%Claim\\[1cm]}
 
 \begin{frame}[fragile]
 	\frametitle{Overview of the scheduler}
@@ -156,13 +157,6 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Election function of an earliest deadline first scheduler}
-
-	\input{figures/scheduler_intro.tex}
-\end{frame}
-
-
-\begin{frame}[fragile]
 	\frametitle{General informations about the scheduler}
 
 	\begin{itemize}
@@ -172,15 +166,21 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+	\frametitle{Election function of an Earliest Deadline First scheduler}
+
+	\input{figures/scheduler_intro.tex}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	Section proof
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Proofs \& Hypotheses}
 
 \begin{frame}[fragile]
-	\frametitle{So what did we prove ?}
+	\frametitle{So what did we prove?}
 
-	The election function is proved \emph{correct} under reasonable assumptions :\\
+	The election function is proved \emph{correct}\\% under reasonable assumptions :\\
 	schedulable job sets are scheduled such that no job misses its deadline.
 \end{frame}
 
@@ -192,13 +192,13 @@
 
 	\begin{definition}[Schedulability property]
 	\[
-		\text{schedulable} \iff \forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
+		\forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
 	\]
 	\end{definition}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Additional "well-formedness" assumptions}
+	\frametitle{Well-formedness assumptions}
 
 	For each job :
 	\begin{itemize}
@@ -212,7 +212,7 @@
 \highlightedFrame[]{Three~~steps~~to~~reach correctness}
 
 \begin{frame}[fragile]
-	\frametitle{Earliest deadline first policy}
+	\frametitle{Earliest Deadline First policy}
 	\begin{block}{EDF scheduling policy}
 		For any job $j$ and any time instant $t$, if the job $j$ is running at instant $t$, then for any other job $j'$ that is ready to run at the same instant, it holds that $d_j \leq d_{j'}$.
 	\end{block}
@@ -236,7 +236,7 @@
 \begin{frame}[fragile]
 	\frametitle{Correctness of an intermediate election function}
 
-	Implement an idealised, functional (non-translatable) election function that acts like the final one.\\[0.5cm]
+	Implement an idealised election function that acts like the one that will be executed.\\[0.5cm]
 
 	The next step is to prove it implements the EDF policy defined previously.
 
@@ -244,8 +244,8 @@
 	\vspace{-0.2cm}
 	\[
 		\forall t, \forall o, \forall s.~~
-		\texttt{functional\_scheduler}(t) = (o, s) \implies
-		\text{EdfPolicyUpTo}~(\text{now}~s).
+		\texttt{idealised\_scheduler}(t) = (o, s) \implies
+	\text{EdfPolicyUpTo}~t.
 	\]
 	\end{block}
 
@@ -258,7 +258,7 @@
 \begin{frame}[fragile]
 	\frametitle{Correctness of the election function}
 
-	Implement the final, compilable to C, imperative election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
+	Implement the final, translatable to C, election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
 
 	The next step is to prove that it acts the same way as the functional one.
 
@@ -267,11 +267,11 @@
 		\begin{gather*}
 			\forall t.\\
 			\{
-			    ~\lambda~\textit{env}~s. ~\textit{env} = E \land s = \textit{init}~
+			    ~\textit{env} = E \land s = \textit{init}~
 			\}\\
-			\texttt{scheduler}~(t)\\
+			(o, s') := \texttt{scheduler}~(t)\\
 			\{
-			    ~\lambda~o~s'. ~\texttt{functional\_scheduler}~(t) = (o,s')~
+			    ~\texttt{idealised\_scheduler}~(t) = (o,s')~
 			\}
 		\end{gather*}
 	\end{block}
@@ -287,34 +287,48 @@
 \section{Models \& Implementation}
 
 \begin{frame}[fragile]
-	\frametitle{Model \& implementation}
-	Highlight which parts are proven and which one are implemented in C or Coq
+	\frametitle{Overview of the scheduler}
+
+	\input{figures/scheduler_overview.tex}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Abstract types and monad}
-
+	\frametitle{The scheduler from the proof's point of view}
+	\input{figures/model_world.tex}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Oracles}
-
+	\frametitle{The actual scheduler}
+	\input{figures/implementation.tex}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Back-ends}
+	\frametitle{Most common yet forgotten assumption}
+
+	\huge{The models properly describe the behaviour\\ of components we rely on.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	thanks slide, not in toc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\sectionNotInTocAndNavigation{Thank you. Questions?}
+\sectionNotInTocAndNavigation{Conclusion}
 
+\begin{frame}{Conclusion}
+
+	We have shown an EDF scheduler with a proved election function, describing :
+	\begin{itemize}
+		\item{The role of the election function, the interface and state, and the back-end}
+		\item{The correctness of the election function}
+		\item{The assumptions}
+		\item{The monadic approach}
+	\end{itemize}
+
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	conclusion frame
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Thank you for your attention !}
+\begin{frame}{Thank you for your attention!}
 
 	Sources \& directions to run the scheduler can be found on our repository :
 
