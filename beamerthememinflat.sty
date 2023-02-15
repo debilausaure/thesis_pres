@@ -63,7 +63,7 @@
 
     	\ifx\insertinstitut\@empty%
     	\else{%
-		    \vspace*{-6em}
+		\vspace*{-4em}
     		\usebeamerfont{institute}%
     		\usebeamercolor[fg]{institute}%
     		\insertinstitute \par
@@ -155,7 +155,8 @@
             \usebeamerfont{section title}
             \begin{minipage}{.8\paperwidth}
 				\color{section head color}
-				\insertsubsection\\[1ex]
+				\insertsection\\[1ex]
+				\small{\insertsubsection}\\[1ex]
     			\progressbar{.25ex}
     		\end{minipage}
     	\end{frame}

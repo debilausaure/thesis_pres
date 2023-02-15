@@ -40,8 +40,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	define content of title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\talkTitle{Formal Correctness Proof for an EDF Scheduler Implementation}
-\def\talkSubtitle{RTAS 2022}
+\def\talkTitle{Conception, implémentation et preuve d’un service de transfert de flot d’exécution au sein d’un noyau de système d’exploitation}
+\def\talkSubtitle{Soutenance de thèse}
 \def\talkKeywords{Keywords}
 
 %% Define meta data of pdf
@@ -58,14 +58,13 @@
 %%%%	set content of title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{\talkTitle}  
-\subtitle{\textbf{\talkSubtitle}} 
+\subtitle{\textbf{\talkSubtitle}}
 \author{Florian Vanhems -- florian.vanhems@univ-lille.fr}
-\DTMlangsetup[en-GB]{ord=raise,monthyearsep={,\space}}
-\date{\DTMtoday}
+\date{Jeudi 2 Mars 2023}
 \institute{%
 	\centering
-	\def\svgwidth{.25\textwidth}
-	\input{./images/logo_ulille.pdf_tex}
+	\def\svgwidth{.35\textwidth}
+	\input{./images/logo_ulille.pdf_tex}\\
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -77,19 +76,19 @@
 \newcounter{chapter}
 \setcounter{chapter}{1}
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{lemma}[theorem]{Lemme}
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{corollary}[theorem]{Corollaire}
 
 \theoremstyle{definition}
 \newtheorem{conclusion}[theorem]{Conclusion}
-\newtheorem*{definition}{Definition}
-\newtheorem*{remark}{Remark}
+\newtheorem*{definition}{Définition}
+\newtheorem*{remark}{Remarque}
 \newtheorem*{dummyblock}{dummyblock}
 
 \theoremstyle{example}
-\newtheorem{example}[theorem]{Example}
+\newtheorem{example}[theorem]{Exemple}
 
 \newenvironment<>{dummyblock}[1]{%
 	\setbeamercolor{block title}{fg=white,bg=white}%
@@ -110,16 +109,13 @@
 	\titlepage
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	toc
+%%%%	Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-	\tableofcontents
-\end{frame}
+\section{Introduction \& présentation des travaux}
 
 \begin{frame}[fragile]
-	\frametitle{Motivations}
+	\frametitle{Contexte général et portée des travaux}
 	\begin{itemize}
 		\item{Critical software of embedded systems}
 		\item{EDF is optimal and well understood}
@@ -128,217 +124,292 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Aspirations}
+	\frametitle{Pip, un noyau minimaliste aux garanties fortes}
+	\begin{itemize}
+		\item{Critical software of embedded systems}
+		\item{EDF is optimal and well understood}
+		\item{Experiment with our proof methodology}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Positionnement des travaux dans le projet Pip}
+	\begin{itemize}
+		\item{Critical software of embedded systems}
+		\item{EDF is optimal and well understood}
+		\item{Experiment with our proof methodology}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Contributions de la thèse}
 	\begin{itemize}
 		\item{Proof of concept - not a production ready scheduler}
 		\item{Share our conception and understanding of software proofs}
 	\end{itemize}
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	Overview
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Overview}
-
-\highlightedFrame[First formally proven implementation\\of an Earliest Deadline First scheduler for arbitrary sequences of jobs]{}%Claim\\[1cm]}
-
-\begin{frame}[fragile]
-	\frametitle{Overview of the scheduler}
-
-	\input{figures/scheduler_overview.tex}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Star of the talk}
-
-	\input{figures/election_function.tex}	
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{General informations about the scheduler}
-
-	\begin{itemize}
-		\item{Schedules arbitrary sequences of jobs (as opposed to \emph{tasks})}
-		\item{Periodically called}
-		\item{Online \footnote{: while the election function schedules online, our scheduler feeds it hard coded jobs for simplicity}}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Election function of an Earliest Deadline First scheduler}
-
-	\input{figures/scheduler_intro.tex}
+\begin{frame}
+	\tableofcontents
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	Section proof
+%%%%	Service de transfert de flot de controle
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Proofs \& Hypotheses}
+
+\section{Service de transfert de flot d'exécution}
 
 \begin{frame}[fragile]
-	\frametitle{So what did we prove?}
-	\begin{center}
-		\huge{Schedulable job sets are scheduled such that\\no job misses its deadline}
-	\end{center}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Schedulability property}
-
-	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
-	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the job set is \emph{schedulable}.
-
-	\begin{definition}[Schedulability property]
-	\[
-		\forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
-	\]
-	\end{definition}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Well-formedness assumptions}
-
-	For each job :
-	\begin{itemize}
-		\item{$r_i + c_i \leq d_i$ : the deadline comes late enough for the job to complete its execution if executed alone on the processor}
-		\item{$0 < \delta_j \leq c_j$ : the actual duration $\delta$ of a job is strictly positive and less than its budget $c$}
-		\item{unique identifiers}
-		\item{released exactly once}
-	\end{itemize}
-\end{frame}
-
-\highlightedFrame[]{Three~~steps~~to~~reach correctness}
-
-\begin{frame}[fragile]
-	\frametitle{Earliest Deadline First policy}
-	\begin{block}{EDF scheduling policy}
-		For any job $j$ and any time instant $t$, if the job $j$ is running at instant $t$, then for any other job $j'$ that is ready to run at the same instant, it holds that $d_j \leq d_{j'}$.
-	\end{block}
-
-	\vspace{0.5cm}
-
-	Applying the policy on a job set (up to a certain time instant $t$) is defined as :
-	\begin{center}
-		EdfPolicyUpTo $t$
-	\end{center}
-	
-	\begin{block}{EDF policy correctnesss property}
-	\vspace{-0.2cm}
-	\[
-		\text{schedulable} \implies \forall j. \forall t.~~\text{EdfPolicyUpTo}~t \implies \neg \text{overdue}~j~t
-	\]
-	\end{block}
-
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Correctness of an intermediate election function}
-
-	Implement an idealised election function that acts like the one that will be executed.\\[0.5cm]
-
-	The next step is to prove it implements the EDF policy defined previously.
-
-	\begin{block}{Functional election function implements EDF policy}
-	\vspace{-0.2cm}
-	\[
-		\forall t, \forall o, \forall s.~~
-		\texttt{idealised\_scheduler}(t) = (o, s) \implies
-	\text{EdfPolicyUpTo}~t.
-	\]
-	\end{block}
-
-	\vspace{0.5cm}
-
-	From this property follows the correctness of this idealised election function.
-
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Correctness of the election function}
-
-	Implement the final, translatable to C, election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
-
-	The next step is to prove that it acts the same way as the functional one.
-
-	\begin{block}{Actual election function has same effects as functional}
-		\vspace{-0.6cm}
-		\begin{gather*}
-			\forall t.\\
-			\{
-			    ~\textit{env} = E \land s = \textit{init}~
-			\}\\
-			(o, s') := \texttt{scheduler}~(t)\\
-			\{
-			    ~\texttt{idealised\_scheduler}~(t) = (o,s')~
-			\}
-		\end{gather*}
-	\end{block}
-
-	\vspace{0.5cm}
-
-	From this property follows the correctness of the scheduler.
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Models \& Implementation}
-
-\begin{frame}[fragile]
-	\frametitle{Overview of the scheduler}
-
-	\input{figures/scheduler_overview.tex}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{The scheduler from the proof's point of view}
-	\input{figures/model_world.tex}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{The actual scheduler}
-	\input{figures/implementation.tex}
-\end{frame}
-
-\begin{frame}[fragile]
-	\frametitle{Most common yet forgotten assumption}
-	\begin{center}
-		\huge{The models properly describe the behaviour\\ of components we rely on.}
-	\end{center}
+coucou
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	thanks slide, not in toc
+%%%%	Un ordonnanceur EDF prouvé
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\sectionNotInTocAndNavigation{Conclusion}
+\section{Ordonnanceur EDF}
 
-\begin{frame}{Conclusion}
+\begin{frame}[fragile]
+coucou
+\end{frame}
 
-	We have shown an EDF scheduler with a proved election function, describing :
-	\begin{itemize}
-		\item{The role of the election function, the interface and state, and the back-end}
-		\item{The correctness of the election function}
-		\item{The assumptions}
-		\item{The monadic approach}
-	\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%	Abstraction des modèles de Pip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Abstraction des modèles de Pip}
+
+\begin{frame}[fragile]
+coucou
+\end{frame}
+
+\subsection{Ancien modèle}
+
+\begin{frame}[fragile]
+coucou
+\end{frame}
+\begin{frame}[fragile]
+coucou
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%	conclusion frame
+%%%%	Conclusion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Thank you for your attention!}
 
-	Sources \& directions to run the scheduler can be found on our repository :
+\section{Conclusion}
 
-	\begin{center}\url{https://github.com/2xs/pip_edf_scheduler}\end{center}
-
-	and it passed the artifact validation process
-%	\begin{center}
-%		\tiny{These slides were created with the \href{https://github.com/vipowueb/minflat-beamer}{\emph{minflat beamer theme}} by Robert Baumgarth}.
-%	\end{center}
+\begin{frame}[fragile]
+coucou
 \end{frame}
+
+\begin{frame}[fragile]
+coucou
+\end{frame}
+
+\sectionNotInTocAndNavigation{Merci pour votre attention}
 
 \end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\section{Overview}
+%
+%\highlightedFrame[First formally proven implementation\\of an Earliest Deadline First scheduler for arbitrary sequences of jobs]{}%Claim\\[1cm]}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Overview of the scheduler}
+%
+%	\input{figures/scheduler_overview.tex}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Star of the talk}
+%
+%	\input{figures/election_function.tex}	
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{General informations about the scheduler}
+%
+%	\begin{itemize}
+%		\item{Schedules arbitrary sequences of jobs (as opposed to \emph{tasks})}
+%		\item{Periodically called}
+%		\item{Online \footnote{: while the election function schedules online, our scheduler feeds it hard coded jobs for simplicity}}
+%	\end{itemize}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Election function of an Earliest Deadline First scheduler}
+%
+%	\input{figures/scheduler_intro.tex}
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	Section proof
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Proofs \& Hypotheses}
+%
+%\begin{frame}[fragile]
+%	\frametitle{So what did we prove?}
+%	\begin{center}
+%		\huge{Schedulable job sets are scheduled such that\\no job misses its deadline}
+%	\end{center}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Schedulability property}
+%
+%	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
+%	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the job set is \emph{schedulable}.
+%
+%	\begin{definition}[Schedulability property]
+%	\[
+%		\forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
+%	\]
+%	\end{definition}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Well-formedness assumptions}
+%
+%	For each job :
+%	\begin{itemize}
+%		\item{$r_i + c_i \leq d_i$ : the deadline comes late enough for the job to complete its execution if executed alone on the processor}
+%		\item{$0 < \delta_j \leq c_j$ : the actual duration $\delta$ of a job is strictly positive and less than its budget $c$}
+%		\item{unique identifiers}
+%		\item{released exactly once}
+%	\end{itemize}
+%\end{frame}
+%
+%\highlightedFrame[]{Three~~steps~~to~~reach correctness}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Earliest Deadline First policy}
+%	\begin{block}{EDF scheduling policy}
+%		For any job $j$ and any time instant $t$, if the job $j$ is running at instant $t$, then for any other job $j'$ that is ready to run at the same instant, it holds that $d_j \leq d_{j'}$.
+%	\end{block}
+%
+%	\vspace{0.5cm}
+%
+%	Applying the policy on a job set (up to a certain time instant $t$) is defined as :
+%	\begin{center}
+%		EdfPolicyUpTo $t$
+%	\end{center}
+%	
+%	\begin{block}{EDF policy correctnesss property}
+%	\vspace{-0.2cm}
+%	\[
+%		\text{schedulable} \implies \forall j. \forall t.~~\text{EdfPolicyUpTo}~t \implies \neg \text{overdue}~j~t
+%	\]
+%	\end{block}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Correctness of an intermediate election function}
+%
+%	Implement an idealised election function that acts like the one that will be executed.\\[0.5cm]
+%
+%	The next step is to prove it implements the EDF policy defined previously.
+%
+%	\begin{block}{Functional election function implements EDF policy}
+%	\vspace{-0.2cm}
+%	\[
+%		\forall t, \forall o, \forall s.~~
+%		\texttt{idealised\_scheduler}(t) = (o, s) \implies
+%	\text{EdfPolicyUpTo}~t.
+%	\]
+%	\end{block}
+%
+%	\vspace{0.5cm}
+%
+%	From this property follows the correctness of this idealised election function.
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Correctness of the election function}
+%
+%	Implement the final, translatable to C, election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
+%
+%	The next step is to prove that it acts the same way as the functional one.
+%
+%	\begin{block}{Actual election function has same effects as functional}
+%		\vspace{-0.6cm}
+%		\begin{gather*}
+%			\forall t.\\
+%			\{
+%			    ~\textit{env} = E \land s = \textit{init}~
+%			\}\\
+%			(o, s') := \texttt{scheduler}~(t)\\
+%			\{
+%			    ~\texttt{idealised\_scheduler}~(t) = (o,s')~
+%			\}
+%		\end{gather*}
+%	\end{block}
+%
+%	\vspace{0.5cm}
+%
+%	From this property follows the correctness of the scheduler.
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Models \& Implementation}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Overview of the scheduler}
+%
+%	\input{figures/scheduler_overview.tex}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{The scheduler from the proof's point of view}
+%	\input{figures/model_world.tex}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{The actual scheduler}
+%	\input{figures/implementation.tex}
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%	\frametitle{Most common yet forgotten assumption}
+%	\begin{center}
+%		\huge{The models properly describe the behaviour\\ of components we rely on.}
+%	\end{center}
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	thanks slide, not in toc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\sectionNotInTocAndNavigation{Conclusion}
+%
+%\begin{frame}{Conclusion}
+%
+%	We have shown an EDF scheduler with a proved election function, describing :
+%	\begin{itemize}
+%		\item{The role of the election function, the interface and state, and the back-end}
+%		\item{The correctness of the election function}
+%		\item{The assumptions}
+%		\item{The monadic approach}
+%	\end{itemize}
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%	conclusion frame
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Thank you for your attention!}
+%
+%	Sources \& directions to run the scheduler can be found on our repository :
+%
+%	\begin{center}\url{https://github.com/2xs/pip_edf_scheduler}\end{center}
+%
+%	and it passed the artifact validation process
+%%	\begin{center}
+%%		\tiny{These slides were created with the \href{https://github.com/vipowueb/minflat-beamer}{\emph{minflat beamer theme}} by Robert Baumgarth}.
+%%	\end{center}
+%\end{frame}
+%
