@@ -182,8 +182,9 @@
 
 \newcommand\progressbar[1]{%
 	\dimen0=\textwidth
-	\multiply\dimen0 by \insertframenumber
+	%\advance\dimen1 by -20pt
 	\divide\dimen0 by \inserttotalframenumber
+	\multiply\dimen0 by \insertframenumber
 	\edef\progressbarwidth{\the\dimen0}
 	\leavevmode%
 	\begin{beamercolorbox}[wd=\textwidth,ht=#1,dp=#1]{progress bar}
@@ -194,9 +195,10 @@
 
 \DeclareRobustCommand\calcProgressbar[3]{%
 	\dimen1=\textwidth
-	\multiply\dimen1 by #1%\insertframenumber
+	%\advance\dimen1 by -20pt
 	\divide\dimen1 by #2%\inserttotalframenumber
-	\advance \dimen1 by #3%-20pt
+	\multiply\dimen1 by #1%\insertframenumber
+	%\advance \dimen1 by #3%-12pt
 	\the\dimen1
 %	\calcProgressbar{\the\frameNumber}{\the\totalFrameNumberWithoutThx}{20pt}
 }
@@ -223,9 +225,9 @@
 			\frameNumber=\getrefnumber{\getSectionLabel}%\getpagerefnumber{\getSectionLabel}
 			\advance \frameNumber by 1
 			\dimen1=\textwidth
-			\multiply\dimen1 by \frameNumber
 			\divide\dimen1 by \totalFrameNumberWithoutThx
-			\advance \dimen1 by -20pt
+			\multiply\dimen1 by \frameNumber
+			%\advance \dimen1 by -12pt
 			\edef\labelAlignmentWidth{\the\dimen1}
 			\expandafter\edef\csname sectionWidth\the\value{progressBarCounter}\endcsname{\labelAlignmentWidth}
 			\expandafter\edef\csname sectionTitle\the\value{progressBarCounter}\endcsname{\getSectionLabel}
@@ -233,9 +235,9 @@
 	    \leavevmode%  
 
 		\dimen0=\textwidth
-	    \multiply\dimen0 by \insertframenumber
 	    \divide\dimen0 by \totalFrameNumberWithoutThx
-	    	\advance\dimen0 by -20pt
+	    \multiply\dimen0 by \insertframenumber
+	    %	\advance\dimen0 by -12pt
 	    \edef\slidesProgressbarWidth{\the\dimen0}
 			
 		\begin{tikzpicture}[every node/.style={black!50!white,\labelAlignmentHelper,yshift=-4pt}]
@@ -271,10 +273,13 @@
 	\ifbeamer@nofooter\relax
 	\else
 		\hbox{%
-			\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{nocolor}%{author in head/foot}%
+			\begin{beamercolorbox}[wd=.27\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{nocolor}%{author in head/foot}%
 				\color{lowOpacity}\hspace*{1.5em}\insertshortauthor
 			\end{beamercolorbox}%
-			\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{nocolor}%{title in head/foot}%
+			\begin{beamercolorbox}[wd=.62\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{nocolor}%{author in head/foot}%
+				\color{lowOpacity}\hspace*{1.5em}\inserttitle
+			\end{beamercolorbox}%
+			\begin{beamercolorbox}[wd=.10\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{nocolor}%{title in head/foot}%
 				\color{lowOpacity}\hfill \insertframenumber\, \,(\inserttotalframenumber)\hspace*{1.5em}%
 			\end{beamercolorbox}%
 		}%

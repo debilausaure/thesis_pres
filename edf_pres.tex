@@ -112,12 +112,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	Introduction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction \& présentation des travaux}
+\section{Introduction}
 
 \begin{frame}[fragile]
 	\frametitle{Contexte général et portée des travaux}
 	\begin{itemize}
-		\item{Critical software of embedded systems}
+		\item{Sécurité informatique}
+		\item{Preuve formelle}
 		\item{EDF is optimal and well understood}
 		\item{Experiment with our proof methodology}
 	\end{itemize}
@@ -133,7 +134,16 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Positionnement des travaux dans le projet Pip}
+	\frametitle{L'architecture de Pip}
+	\begin{itemize}
+		\item{Critical software of embedded systems}
+		\item{EDF is optimal and well understood}
+		\item{Experiment with our proof methodology}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Historique des travaux dans le projet Pip}
 	\begin{itemize}
 		\item{Critical software of embedded systems}
 		\item{EDF is optimal and well understood}
@@ -160,7 +170,103 @@
 \section{Service de transfert de flot d'exécution}
 
 \begin{frame}[fragile]
-coucou
+	\frametitle{Motivations}
+	\begin{itemize}
+		\item{Proof of concept - not a production ready scheduler}
+		\item{Share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Quels objectifs ?}
+	\begin{itemize}
+		\item{Proof of concept - not a production ready scheduler}
+		\item{Share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Transferts de flot d'exécution au sein d'un système}
+	\begin{itemize}
+		\item{Proof of concept - not a production ready scheduler}
+		\item{Share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+%-----------------------------------------------------------
+\subsection{Un nouveau service pour les transferts explicites}
+
+\begin{frame}[fragile]
+	\frametitle{Idée principale : la \emph{VIDT}}
+	\begin{itemize}
+		\item{Proof of concept - not a production ready scheduler}
+		\item{Share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Décomposition du service en blocs fonctionnels}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Illustration du service}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------
+\subsection{Généralisation aux fautes et aux interruptions}
+
+\begin{frame}[fragile]
+	\frametitle{Fautes}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Interruptions}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+%---------------------------------------------------------
+\subsection{Vérification formelle}
+
+\begin{frame}[fragile]
+	\frametitle{Preuve de préservation de l'isolation}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Limites de la preuve}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+%---------------------------------------------------------
+\subsection{En résumé}
+
+\begin{frame}[fragile]
+	\frametitle{Les points clés}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -170,27 +276,216 @@ coucou
 \section{Ordonnanceur EDF}
 
 \begin{frame}[fragile]
-coucou
+	\frametitle{Motivations}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+%-------------------------------------------------------
+\subsection{Place de l'ordonnancement dans Pip}
+
+\begin{frame}[fragile]
+	\frametitle{La place d'un ordonnanceur dans Pip}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Illustration sur un arbre de partitions}
+	\begin{itemize}
+		\item{proof of concept - not a production ready scheduler}
+		\item{share our conception and understanding of software proofs}
+	\end{itemize}
+\end{frame}
+
+%------------------------------------------------------
+\subsection{Vue générale de l'ordonnanceur}
+
+\begin{frame}[fragile]
+	\frametitle{Présentation des composants de l'ordonnanceur}
+
+	\input{figures/scheduler_overview.tex}
+\end{frame}
+
+
+\begin{frame}[fragile]
+	\frametitle{Prototype et fonctionnement de la fonction d'élection EDF}
+
+	\input{figures/scheduler_intro.tex}
+\end{frame}
+
+
+\highlightedFrame[Première implémentation formellement vérifiée d'un ordonnanceur Earliest Deadline First\\ordonnançant des séquences arbitraires de jobs]{}%Claim\\[1cm]}
+
+%-----------------------------------------------------
+\subsection{Hypothèses \& preuves}
+
+\begin{frame}[fragile]
+	\frametitle{Quelles garanties sur l'ordonnanceur ?}
+	\begin{center}
+		\huge{Les ensembles \emph{ordonnançables} de jobs sont ordonnancés de telle manière qu'aucun job ne dépasse son échéance}
+	\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Schedulability property}
+
+	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
+	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the job set is \emph{schedulable}.
+
+	\begin{definition}[Schedulability property]
+	\[
+		\forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
+	\]
+	\end{definition}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Well-formedness assumptions}
+
+	For each job :
+	\begin{itemize}
+		\item{$r_i + c_i \leq d_i$ : the deadline comes late enough for the job to complete its execution if executed alone on the processor}
+		\item{$0 < \delta_j \leq c_j$ : the actual duration $\delta$ of a job is strictly positive and less than its budget $c$}
+		\item{unique identifiers}
+		\item{released exactly once}
+	\end{itemize}
+\end{frame}
+
+\highlightedFrame[]{Les trois étapes de la preuve pour atteindre la propriété de bon fonctionnement de l'ordonnanceur}
+
+\begin{frame}[fragile]
+	\frametitle{Earliest Deadline First policy}
+	\begin{block}{EDF scheduling policy}
+		For any job $j$ and any time instant $t$, if the job $j$ is running at instant $t$, then for any other job $j'$ that is ready to run at the same instant, it holds that $d_j \leq d_{j'}$.
+	\end{block}
+
+	\vspace{0.5cm}
+
+	Applying the policy on a job set (up to a certain time instant $t$) is defined as :
+	\begin{center}
+		EdfPolicyUpTo $t$
+	\end{center}
+	
+	\begin{block}{EDF policy correctnesss property}
+	\vspace{-0.2cm}
+	\[
+		\text{schedulable} \implies \forall j. \forall t.~~\text{EdfPolicyUpTo}~t \implies \neg \text{overdue}~j~t
+	\]
+	\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Correctness of an intermediate election function}
+
+	Implement an idealised election function that acts like the one that will be executed.\\[0.5cm]
+
+	The next step is to prove it implements the EDF policy defined previously.
+
+	\begin{block}{Functional election function implements EDF policy}
+	\vspace{-0.2cm}
+	\[
+		\forall t, \forall o, \forall s.~~
+		\texttt{idealised\_scheduler}(t) = (o, s) \implies
+	\text{EdfPolicyUpTo}~t.
+	\]
+	\end{block}
+
+	\vspace{0.5cm}
+
+	From this property follows the correctness of this idealised election function.
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Correctness of the election function}
+
+	Implement the final, translatable to C, election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
+
+	The next step is to prove that it acts the same way as the functional one.
+
+	\begin{block}{Actual election function has same effects as functional}
+		\vspace{-0.6cm}
+		\begin{gather*}
+			\forall t.\\
+			\{
+			    ~\textit{env} = E \land s = \textit{init}~
+			\}\\
+			(o, s') := \texttt{scheduler}~(t)\\
+			\{
+			    ~\texttt{idealised\_scheduler}~(t) = (o,s')~
+			\}
+		\end{gather*}
+	\end{block}
+
+	\vspace{0.5cm}
+
+	From this property follows the correctness of the scheduler.
+
+\end{frame}
+
+%--------------------------------------------------------
+\subsection{Résumé de la contribution}
+
+\begin{frame}[fragile]
+	\frametitle{Les points clés}
+
+	\begin{itemize}
+		\item From this property follows the correctness of the scheduler.
+	\end{itemize}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	Abstraction des modèles de Pip
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Abstraction des modèles de Pip}
+\section{Séparation des modèles de Pip du code}
 
 \begin{frame}[fragile]
-coucou
+	\frametitle{Motivations}
+
 \end{frame}
 
-\subsection{Ancien modèle}
+%--------------------------------------------------
+\subsection{Ancienne architecture}
 
 \begin{frame}[fragile]
-coucou
+	\frametitle{Modèles \& code interdépendants}
+
 \end{frame}
+
 \begin{frame}[fragile]
-coucou
+	\frametitle{Compilation du code dépendant des modèles}
+
 \end{frame}
+
+%--------------------------------------------------
+\subsection{Architecture proposée}
+
+\begin{frame}[fragile]
+	\frametitle{Code sous forme de foncteur de modèles}
+
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Compilation du code indépendant des modèles}
+
+\end{frame}
+
+%--------------------------------------------------
+\subsection{Résumé de la contribution}
+
+\begin{frame}[fragile]
+	\frametitle{Les points clés}
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	Conclusion
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -206,6 +501,10 @@ coucou
 \end{frame}
 
 \sectionNotInTocAndNavigation{Merci pour votre attention}
+
+\begin{frame}[fragile]
+coucou
+\end{frame}
 
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
