@@ -1,0 +1,118 @@
+\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, scale=0.6, every node/.style={transform shape}]
+
+\onslide<1> {
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[semithick] (root) -- (child1);
+	\draw[semithick] (root) -- (child2);
+	\draw[semithick] (child1) -- (gchild);
+
+}
+
+\onslide<2> {
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[opacity=0.3, semithick] (root) -- (child1);
+	\draw[opacity=0.3, semithick] (root) -- (child2);
+	\draw[opacity=0.3, semithick] (child1) -- (gchild);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\node[left=2cm of root] (root_text) {La partition \emph{racine}\\a accès à l'intégralité de la mémoire du système};
+	\draw[->, semithick] (root_text) -- (root);
+}
+
+\onslide<3> {
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[semithick] (root) -- (child1);
+	\draw[opacity=0.3, semithick] (root) -- (child2);
+	\draw[opacity=0.3, semithick] (child1) -- (gchild);
+
+	\node[below=0cm of root] (root_text) {Partition \emph{racine}};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\node[left=0.75cm of root] (child1_text) {Une partition \emph{enfant}\\créée à partir de la mémoire\\de la partition racine};
+	\draw[->, semithick] (child1_text) -- (child1.240);
+
+}
+
+\onslide<4> {
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[opacity=0.3, semithick] (root) -- (child1);
+	\draw[semithick] (root) -- (child2);
+	\draw[opacity=0.3, semithick] (child1) -- (gchild);
+
+	\node[below=0cm of root] (root_text) {Partition \emph{racine}};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\node[above=1.5cm of child2] (child1_text) {Une autre partition \emph{enfant}\\créée à partir de la mémoire\\de la partition racine};
+	\draw[->, semithick] (child1_text) -- (child2);
+
+}
+
+\onslide<5> {
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[draw, thick, dotted, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[draw, thick, dotted, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[->, semithick, color=green!60] (root) -- (child1);
+	\draw[->, semithick, color=green!60] (root) -- (child2);
+	\draw[opacity=0.3, semithick] (child1) -- (gchild);
+
+	\node[below=0cm of root] (root_text) {Partition \emph{racine}};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\node[left=1.5cm of root] (root_text2) {Le \emph{parent} des partitions enfants\\a toujours accès à la mémoire\\partagée avec ses enfants};
+	\draw[->, semithick] (root_text2) -- (root);
+
+}
+
+\onslide<6> {
+	\node[draw, thick, dotted, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[<-, semithick, color=red!60] (root) -- (child1);
+	\draw[<-, semithick, color=red!60] (root) -- (child2);
+	\draw[opacity=0.3, semithick] (child1) -- (gchild);
+
+	\node[below=0cm of root] (root_text) {Partition \emph{racine}};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\node[above left=0.5cm of root] (child1_text) {Les partitions enfants \emph{n'ont pas accès} à la mémoire\\qui ne leur a pas été partagée};
+}
+
+\onslide<7> {
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+	\node[draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+
+	\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+
+	\draw[opacity=0.3, semithick] (root) -- (child1);
+	\draw[opacity=0.3, semithick] (root) -- (child2);
+	\draw[opacity=0.3, semithick] (child1) -- (gchild);
+	\draw[<->, semithick, color=red!60] (child1) -- node[color=black, midway, above=1.5cm] {Une partition enfant \emph{ne peut pas accéder} à la mémoire d'une\\autre partition enfant (la mémoire partagée est \emph{disjointe})} (child2);
+
+	\node[opacity=0.3, below=0cm of root] (root_text) {Partition \emph{racine}};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\node[above left=0.5cm of root] (child1_text) {};
+}
+
+\end{tikzpicture}

@@ -116,46 +116,63 @@
 
 \begin{frame}[fragile]
 	\frametitle{Contexte général et portée des travaux}
+	Sécurité informatique de systèmes critiques\\
+	Dysfonctionnement provoque la mise en péril de vies humaines ou engendre des coûts effarants
 	\begin{itemize}
-		\item{Sécurité informatique}
-		\item{Preuve formelle}
-		\item{EDF is optimal and well understood}
-		\item{Experiment with our proof methodology}
+		\item Transport
+		\item Énergie
+		\item Spatial
 	\end{itemize}
+
+	Preuve de propriétés formelles sur le logiciel embarqué dans ces systèmes 
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Pip, un noyau minimaliste aux garanties fortes}
 	\begin{itemize}
-		\item{Critical software of embedded systems}
-		\item{EDF is optimal and well understood}
-		\item{Experiment with our proof methodology}
+		\item{Permet de créer des partitions de mémoire isolées les unes des autres}
+		\item{Isolation rendue possible par un dispositif matériel (MMU ou MPU selon les systèmes)}
+		\item{Muni d'une preuve formelle de préservation de l'isolation (bonne configuration du matériel)}
+		\item{Support des architectures x86 et Armv7}
 	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{L'arbre de partition de Pip}
+	\begin{center}
+		\input{figures/child_parent.tex}
+	\end{center}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{L'architecture de Pip}
 	\begin{itemize}
-		\item{Critical software of embedded systems}
-		\item{EDF is optimal and well understood}
-		\item{Experiment with our proof methodology}
+		\item{Code des services écrit en Gallina, grâce à un shallow embedding de C}
+		\item{Le code des services est traduit en C grâce à un compilateur (Digger ou $\partial x$)}
+		\item{Services ensuite compilé avec le reste du noyau écrit en C et en assembleur}
+		\item{Les preuves portent directement sur le code des services, dévelopées dans l'assistant de preuve Coq}
+		(Faire un schéma)
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Historique des travaux dans le projet Pip}
+	\frametitle{Historique des travaux sur le projet Pip}
+	Première génération de doctorants :
 	\begin{itemize}
-		\item{Critical software of embedded systems}
-		\item{EDF is optimal and well understood}
-		\item{Experiment with our proof methodology}
+		\item{Aspect système : conception du noyau}
+		\item{Aspect vérification : code des services et preuve}
+		\item{Aspect embarqué : travaux sur la cohabitation d'entités différentes au sein du système}
 	\end{itemize}
+
+	Manque cependant un service robuste de transfert de flot d'exécution entre les partitions
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Contributions de la thèse}
 	\begin{itemize}
-		\item{Proof of concept - not a production ready scheduler}
-		\item{Share our conception and understanding of software proofs}
+		\item{Service de transfert de flot d'exécution entre les partitions}
+		\item{Développement d'un ordonnanceur Earliest Deadline First dans une partition}
+		\item{Amélioration de l'architecture de Pip découplant le code des modèles d'isolation}
 	\end{itemize}
 \end{frame}
 
@@ -172,25 +189,27 @@
 \begin{frame}[fragile]
 	\frametitle{Motivations}
 	\begin{itemize}
-		\item{Proof of concept - not a production ready scheduler}
-		\item{Share our conception and understanding of software proofs}
+		\item{Gérer les cas limites non gérés par l'ancienne implémentation}
+		\item{Compléter la preuve de préservation de l'isolation des services fournis par Pip}
+		\item{Éprouver la méthodologie de Pip}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Quels objectifs ?}
 	\begin{itemize}
-		\item{Proof of concept - not a production ready scheduler}
-		\item{Share our conception and understanding of software proofs}
+		\item{Gérer les fautes et interruptions}
+		\item{Minimiser le nombre de lignes de code pour faciliter la preuve de maintient de l'isolation}
+		\item{Ne pas être lié à une architecture spécifique}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Transferts de flot d'exécution au sein d'un système}
-	\begin{itemize}
-		\item{Proof of concept - not a production ready scheduler}
-		\item{Share our conception and understanding of software proofs}
-	\end{itemize}
+
+	\begin{center}
+		\input{figures/system_calls.tex}
+	\end{center}
 \end{frame}
 
 %-----------------------------------------------------------
@@ -307,8 +326,9 @@
 
 \begin{frame}[fragile]
 	\frametitle{Présentation des composants de l'ordonnanceur}
-
-	\input{figures/scheduler_overview.tex}
+	\begin{center}
+		\input{figures/scheduler_overview.tex}
+	\end{center}
 \end{frame}
 
 
@@ -332,46 +352,34 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Schedulability property}
+	\frametitle{Propriété d'ordonnançabilité d'un ensemble de jobs}
 
-	Given any two moments $t, t'$, let $\Gamma_{t, t'}$ be the set of jobs $j$ to schedule in the interval $[t, t']$.\\
-	If the sum of the budget $c_j$ of the jobs in that set is less than $t' - t$, then the job set is \emph{schedulable}.
+	Soient deux instants distincts $t, t'$, soit $\Gamma_{t, t'}$ l'ensemble des jobs à ordonnancer dans l'intervalle $[t, t']$.\\
+	Si la somme des budgets $c_j$ des jobs de cet ensemble est inférieure à $t' - t$, alors l'ensemble est \emph{ordonnançable}.
 
-	\begin{definition}[Schedulability property]
+	\begin{definition}[Propriété d'ordonnançabilité]
 	\[
 		\forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
 	\]
 	\end{definition}
 \end{frame}
 
-\begin{frame}[fragile]
-	\frametitle{Well-formedness assumptions}
-
-	For each job :
-	\begin{itemize}
-		\item{$r_i + c_i \leq d_i$ : the deadline comes late enough for the job to complete its execution if executed alone on the processor}
-		\item{$0 < \delta_j \leq c_j$ : the actual duration $\delta$ of a job is strictly positive and less than its budget $c$}
-		\item{unique identifiers}
-		\item{released exactly once}
-	\end{itemize}
-\end{frame}
-
-\highlightedFrame[]{Les trois étapes de la preuve pour atteindre la propriété de bon fonctionnement de l'ordonnanceur}
+\highlightedFrame[Trois étapes pour atteindre la propriété de bon fonctionnement de l'ordonnanceur par raffinement]{}
 
 \begin{frame}[fragile]
-	\frametitle{Earliest Deadline First policy}
-	\begin{block}{EDF scheduling policy}
-		For any job $j$ and any time instant $t$, if the job $j$ is running at instant $t$, then for any other job $j'$ that is ready to run at the same instant, it holds that $d_j \leq d_{j'}$.
+	\frametitle{Politique d'ordonnancement Earliest Deadline First}
+	\begin{block}{Politique d'ordonnancement EDF}
+		Soit $j$ un job arbitraire et $t$ un instant arbitraire, si le job $j$ s'exécute à l'instant $t$, alors pour chaque autre job $j'$ qui aurait pu s'exécuter à l'instant $t$, $d_j \leq d_{j'}$.
 	\end{block}
 
 	\vspace{0.5cm}
 
-	Applying the policy on a job set (up to a certain time instant $t$) is defined as :
+	Appliquer la politique EDF à un ensemble de jobs jusqu'à un certain instant $t$ est modélisé par la fonction :
 	\begin{center}
 		EdfPolicyUpTo $t$
 	\end{center}
 	
-	\begin{block}{EDF policy correctnesss property}
+	\begin{block}{Propriété de bon fonctionnement de la politique EDF}
 	\vspace{-0.2cm}
 	\[
 		\text{schedulable} \implies \forall j. \forall t.~~\text{EdfPolicyUpTo}~t \implies \neg \text{overdue}~j~t
@@ -381,13 +389,13 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Correctness of an intermediate election function}
+	\frametitle{Bon fonctionnement d'une fonction d'élection intermédiaire}
 
-	Implement an idealised election function that acts like the one that will be executed.\\[0.5cm]
+	Implémentation d'une fonction d'élection idéalisée qui se comporte de la même manière que la fonction d'élection réelle.\\[0.5cm]
 
-	The next step is to prove it implements the EDF policy defined previously.
+	La prochaine étape est de montrer que cette fonction d'élection idéalisée implémente la politique EDF définie précédemment.
 
-	\begin{block}{Functional election function implements EDF policy}
+	\begin{block}{Fonction d'élection idéalisée implémente la politique EDF}
 	\vspace{-0.2cm}
 	\[
 		\forall t, \forall o, \forall s.~~
@@ -398,18 +406,18 @@
 
 	\vspace{0.5cm}
 
-	From this property follows the correctness of this idealised election function.
+	De cette propriété découle la propriété de bon fonctionnement de la fonction d'élection idéalisée.
 
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Correctness of the election function}
+	\frametitle{Bon fonctionnement de la fonction d'élection}
 
-	Implement the final, translatable to C, election function \emph{that relies on a chosen set of primitives}.\\[0.5cm]
+	Implémentation de la fonction d'élection réelle, traductible en C, \emph{reposant sur des primitives prédéfinies}.\\[0.5cm]
 
-	The next step is to prove that it acts the same way as the functional one.
+	La dernière étape consiste à prouver que la fonction d'élection a le même comprtement que la fonction d'élection idéalisée.
 
-	\begin{block}{Actual election function has same effects as functional}
+	\begin{block}{Fonction d'élection se comporte comme la fonction d'élection idéalisée}
 		\vspace{-0.6cm}
 		\begin{gather*}
 			\forall t.\\
@@ -425,7 +433,7 @@
 
 	\vspace{0.5cm}
 
-	From this property follows the correctness of the scheduler.
+	De cette propriété découle la propriété de bon fonctionnement de la fonction d'élection, et donc de notre ordonnanceur.
 
 \end{frame}
 
@@ -436,7 +444,9 @@
 	\frametitle{Les points clés}
 
 	\begin{itemize}
-		\item From this property follows the correctness of the scheduler.
+		\item Première implémentation formellement vérifiée d'un ordonnanceur Earliest Deadline First pour jobs arbitraires
+		\item Démonstration de la pertinence du service de transfert de flot d'exécution
+		\item Première utilisation du raffinement dans l'écosystème de Pip
 	\end{itemize}
 
 \end{frame}
