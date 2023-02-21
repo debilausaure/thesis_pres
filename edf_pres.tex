@@ -211,32 +211,37 @@
 		\input{figures/system_calls.tex}
 	\end{center}
 \end{frame}
+\begin{frame}[fragile]
+	\frametitle{Transferts de flot d'exécution au sein d'un système}
+
+	\begin{center}
+		\input{figures/interrupt.tex}
+	\end{center}
+\end{frame}
+\begin{frame}[fragile]
+	\frametitle{Transferts de flot d'exécution au sein d'un système}
+
+	\begin{center}
+		\input{figures/fault.tex}
+	\end{center}
+\end{frame}
 
 %-----------------------------------------------------------
 \subsection{Un nouveau service pour les transferts explicites}
 
 \begin{frame}[fragile]
 	\frametitle{Idée principale : la \emph{VIDT}}
-	\begin{itemize}
-		\item{Proof of concept - not a production ready scheduler}
-		\item{Share our conception and understanding of software proofs}
-	\end{itemize}
+	\begin{center}
+		\input{figures/VIDT.tex}
+	\end{center}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Décomposition du service en blocs fonctionnels}
-	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
-	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Illustration du service}
-	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
-	\end{itemize}
 \end{frame}
 
 %----------------------------------------------------------
@@ -244,18 +249,10 @@
 
 \begin{frame}[fragile]
 	\frametitle{Fautes}
-	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
-	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Interruptions}
-	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
-	\end{itemize}
 \end{frame}
 
 %---------------------------------------------------------
@@ -263,18 +260,19 @@
 
 \begin{frame}[fragile]
 	\frametitle{Preuve de préservation de l'isolation}
+
 	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
+		\item Preuve réalisée avec des modèles limités
+		\item Preuve avec des modèles plus complets en cours
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Limites de la preuve}
-	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
-	\end{itemize}
+
+	Preuve d'isolation peu pertinente pour ce service
+
+	Preuve de bon fonctionnement plus adéquate, \textbf{mais} le code de Pip est lié aux modèles d'isolation
 \end{frame}
 
 %---------------------------------------------------------
@@ -283,8 +281,20 @@
 \begin{frame}[fragile]
 	\frametitle{Les points clés}
 	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
+		\item{Service de transfert de flot d'exécution capable de gérer}
+		\begin{itemize}
+			\item Transferts explicites
+			\item Fautes
+			\item Interruptions
+		\end{itemize}
+		\item ... en un flot d'exécution unique !
+		\item preuve d'isolation réalisée
+		\item support de multiples architectures
+	\end{itemize}
+	mais
+	\begin{itemize}
+		\item Preuve d'isolation peu pertinente
+		\item Utilisabilité est doutable, car seulement montré sur des exemples jouets
 	\end{itemize}
 \end{frame}
 
@@ -297,8 +307,10 @@
 \begin{frame}[fragile]
 	\frametitle{Motivations}
 	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
+		\item Montrer que le service de transfert de flot d'exécution est utilisable
+		\item Utilisabilité de la méthodologie de preuve de Pip en espace non privilégié
+		\item Mettre un autre pied dans le monde des systèmes embarqués
+		\item Résultat encore inédit (pas d'autre implémentation prouvée dans le monde)
 	\end{itemize}
 \end{frame}
 
@@ -307,18 +319,16 @@
 
 \begin{frame}[fragile]
 	\frametitle{La place d'un ordonnanceur dans Pip}
+	Pip est un noyau minimal : ordonnancement relégué en espace utilisateur
 	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
+		\item Multiplicité des politiques d'ordonnancement
+		\item Ajout de logiciel dont les propriétés à prouver ne sont pas des propriétés d'isolation
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Illustration sur un arbre de partitions}
-	\begin{itemize}
-		\item{proof of concept - not a production ready scheduler}
-		\item{share our conception and understanding of software proofs}
-	\end{itemize}
+
 \end{frame}
 
 %------------------------------------------------------
@@ -447,6 +457,7 @@
 		\item Première implémentation formellement vérifiée d'un ordonnanceur Earliest Deadline First pour jobs arbitraires
 		\item Démonstration de la pertinence du service de transfert de flot d'exécution
 		\item Première utilisation du raffinement dans l'écosystème de Pip
+		\item Première preuve en espace utilisateur de Pip
 	\end{itemize}
 
 \end{frame}
@@ -459,7 +470,11 @@
 
 \begin{frame}[fragile]
 	\frametitle{Motivations}
-
+	
+	\begin{itemize}
+		\item Réussir à prouver des propriétés non liées à l'isolation
+		\item Décorréler le code des services de Pip des modèles d'isolation
+	\end{itemize}
 \end{frame}
 
 %--------------------------------------------------
@@ -468,11 +483,16 @@
 \begin{frame}[fragile]
 	\frametitle{Modèles \& code interdépendants}
 
+	\begin{center}
+		\input{figures/current_pip_architecture.tex}
+	\end{center}
+
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Compilation du code dépendant des modèles}
 
+	allo
 \end{frame}
 
 %--------------------------------------------------
@@ -481,11 +501,13 @@
 \begin{frame}[fragile]
 	\frametitle{Code sous forme de foncteur de modèles}
 
+coucou
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Compilation du code indépendant des modèles}
 
+coucou
 \end{frame}
 
 %--------------------------------------------------
@@ -494,6 +516,7 @@
 \begin{frame}[fragile]
 	\frametitle{Les points clés}
 
+coucou
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

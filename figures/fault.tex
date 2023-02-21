@@ -1,0 +1,16 @@
+\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, scale=0.6, every node/.style={transform shape}]
+	\onslide<1> {
+		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
+		\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
+		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+	
+		\node[draw, thick, dotted, color=red, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+	
+		\draw[opacity=0.3, semithick] (root) -- (child1);
+		\draw[opacity=0.3, semithick] (root) -- (child2);
+		\draw[semithick] (child1) -- (gchild);
+	
+		\node[left=of gchild] {Durant son exécution,\\la partition déclenche une faute};
+		\draw[<-, color=red] (child1.east) to [out=45, in=315] node [midway, right, color=black] {La faute est remontée au parent} (gchild.east);
+	}
+\end{tikzpicture}
