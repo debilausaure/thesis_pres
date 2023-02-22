@@ -1,0 +1,245 @@
+\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, every node/.style={transform shape}]
+
+%% CPU box
+	\node[minimum width=0.8cm, minimum height=0.8cm] (cpu) at (0, 0) {};
+%\node[draw, ultra thin, drop shadow, fill=white, minimum height=1.3cm, minimum width=1.3cm] (cpu) at (0, 0) {};
+%% CPU label
+%\node[above=0.1cm of cpu] {\scriptsize{CPU}};
+
+\onslide<1-> {
+	%% CPU
+	\node[inner sep=0pt, fill opacity=1] at (cpu) {\includegraphics[width=1.5cm]{images/cpu.png}};
+	%% Kernel box
+	\node[draw, ultra thin, drop shadow, fill=white, minimum height=2cm, minimum width=0.8cm, above=0.7cm of cpu] (kern_stack) {};
+	%% Kernel box label
+	\node[above=0.1cm of kern_stack] {\scriptsize{Pile noyau}};
+}
+
+\onslide<1> {
+	\node[inner sep=0pt, fill opacity=1] at (cpu) {\includegraphics[width=0.75cm]{images/pink_context.png}};
+}
+
+\onslide<1-2> {
+	%% Source
+	\node[draw, drop shadow, ultra thin, fill=white, minimum height=3cm, minimum width=1.5cm] (source) at (-4,3) {};
+	\node[above=0.3cm of source] {Source};
+}
+
+\onslide<1-4> {
+	%% Cible
+	\node[draw, drop shadow, ultra thin, fill=white, minimum height=3cm, minimum width=1.5cm] (target) at (4,3) {};
+	\node[above=0.21cm of target] {Cible};
+}
+
+\onslide<2-> {
+	%% Interrupted context
+	\node[inner sep=0pt, fill opacity=1] at (0, 1.5) (kern_source) {\includegraphics[width=0.75cm]{images/pink_context.png}};
+}
+
+\onslide<2-9> {
+	%% CPU
+	\node[inner sep=0pt, fill opacity=1] at (cpu) {\includegraphics[width=0.75cm]{images/gray_context.png}};
+}
+
+\onslide<2> {
+	%%save index -> save location
+	\draw[->] (cpu) to [out=45,in=315] (kern_source);
+}
+
+\onslide<3-> {
+	%% Interrupted context
+	\node[inner sep=0pt, pattern color=lightgray, pattern=south west lines, minimum width=0.66cm, minimum height=0.6cm] at (kern_stack) {};
+}
+
+\onslide<3> {
+	%% Source
+	\node[draw, drop shadow, ultra thin, fill=lightgray!60, minimum height=3cm, minimum width=1.5cm] (source) at (-4,3) {};
+	\node[draw, ultra thin, fill=white, minimum height=2.8cm, minimum width=1.3cm] at (source) {};
+	\node[above=0.3cm of source] {Source};
+
+	\node[below=0.2cm of source, fill=lightgray!60]{
+		\texttt{isAccessible(VIDT)}
+	};
+}
+
+\onslide<4-> {
+	%% Source
+	\node[draw, drop shadow, ultra thin, fill=red!20, minimum height=3cm, minimum width=1.5cm] (source) at (-4,3) {};
+	\node[draw, ultra thin, fill=white, minimum height=2.8cm, minimum width=1.5cm] at (source) {};
+	\node[above=0.3cm of source] {Source};
+}
+
+\onslide<4> {
+	%%save index zoomed
+	\node[draw,
+	      scale=1.5,
+	      thick,
+	      fill=lightgray!60,
+	      drop shadow={
+	          shadow xshift=0.1cm,
+	          shadow yshift=-0.1cm
+	      },
+	      minimum width=1.6cm
+	] (save_index) at (-4, 2.1) {\tiny{\texttt{@ctx}}};
+	\node[draw,
+	      thick,
+	      scale=1.5,
+	      fill=white,
+	      minimum width=1.4cm
+	] at (save_index) {\tiny{\texttt{@ctx}}};
+
+	\node[fill=red!20, left=0.2cm of save_index] {\scriptsize{\texttt{saveIdx}}};
+
+	\node[above=0.1cm of save_index, fill=lightgray!60] {
+		\texttt{isAccessible(@ctx)}
+	};
+}
+
+\onslide<5-> {
+	%%save index
+	\node[draw,
+	      ultra thin,
+	      fill=red!20,
+	      drop shadow={
+	          shadow xshift=0.04cm,
+	          shadow yshift=-0.04cm
+	      },
+	      minimum width=1.6cm
+	] (save_index) at (-4, 2.1) {\tiny{\texttt{@ctx}}};
+	\node[draw,
+	      ultra thin,
+	      fill=white,
+	      minimum width=1.4cm
+	] at (save_index) {\tiny{\texttt{@ctx}}};
+
+	\node[fill=red!20, left=0.2cm of save_index] {\scriptsize{\texttt{saveIdx}}};
+
+	%%save location
+	\node[draw,
+	      drop shadow,
+	      fill=red!20,
+	      minimum height=1cm,
+	      minimum width=0.8cm
+	] (save_location) at (-1.5, 4) {};
+	\node[draw,
+	      fill=white,
+	      minimum height=0.8cm,
+	      minimum width=0.8cm
+	] at (save_location) {};
+
+	%%save index -> save location
+	\draw[->, dashed] (save_index) to [out=0,in=230] (save_location);
+}
+
+\onslide<5> {
+	%% Cible
+	\node[draw, drop shadow, ultra thin, fill=lightgray!60, minimum height=3cm, minimum width=1.5cm] (target) at (4,3) {};
+	\node[draw, ultra thin, fill=white, minimum height=2.8cm, minimum width=1.3cm] (target) at (4,3) {};
+	\node[above=0.3cm of target] {Cible};
+
+	\node[below=0.2cm of target, fill=lightgray!60] {
+		\texttt{isAccessible(VIDT)}
+	};
+}
+
+\onslide<6-> {
+	%% Cible
+	\node[draw, drop shadow, ultra thin, fill=blue!20, minimum height=3cm, minimum width=1.5cm] (target) at (4,3) {};
+	\node[draw, ultra thin, fill=white, minimum height=2.8cm, minimum width=1.5cm] (target) at (4,3) {};
+	\node[above=0.3cm of target] {Cible};
+}
+
+\onslide<6> {
+	%%load index zoomed
+	\node[draw,
+	      scale=1.5,
+	      thick,
+	      fill=lightgray!60,
+	      drop shadow={
+	          shadow xshift=0.1cm,
+	          shadow yshift=-0.1cm
+	      },
+	      minimum width=1.6cm
+	] (load_index) at (4, 3.7) {\tiny{\texttt{@ctx}}};
+	\node[draw,
+	      scale=1.5,
+	      thick,
+	      fill=white,
+	      minimum width=1.4cm
+	] at (load_index) {\tiny{\texttt{@ctx}}};
+
+	\node[fill=blue!20, right=0.2cm of load_index] {\scriptsize{\texttt{loadIdx}}};
+
+	\node[below=0.2cm of load_index, fill=lightgray!60] {
+		\texttt{isAccessible(@ctx)}
+	};
+}
+
+\onslide<7-> {
+	%%load index
+	\node[draw,
+	      ultra thin,
+	      fill=blue!20,
+	      drop shadow={
+	          shadow xshift=0.04cm,
+	          shadow yshift=-0.04cm
+	      },
+	      minimum width=1.6cm
+	] (load_index) at (4, 3.7) {\tiny{\texttt{@ctx}}};
+	\node[draw,
+	      ultra thin,
+	      fill=white,
+	      minimum width=1.4cm
+	] at (load_index) {\tiny{\texttt{@ctx}}};
+
+	%%load location
+	\node[draw,
+	      ultra thin,
+	      drop shadow,
+	      fill=blue!20,
+	      minimum height=1cm,
+	      minimum width=0.8cm
+	] (load_location) at (1.5, 4.5) {};
+	\node[draw,
+	      ultra thin,
+	      fill=white,
+	      minimum height=0.8cm,
+	      minimum width=0.8cm
+	] at (load_location) {};
+
+	\node[fill=blue!20, right=0.2cm of load_index] {\scriptsize{\texttt{loadIdx}}};
+
+	%%load_index -> load_location
+	\draw[->, dashed] (load_index) to [out=180,in=0] (load_location);
+
+	%% Target cpu context
+	\node[inner sep=0pt, minimum width=0.75cm, minimum height=0.75cm] at (load_location) {\includegraphics[width=0.75cm]{images/blue_context.png}};
+}
+
+\onslide<8-> {
+	%% Source cpu context
+	\node[inner sep=0pt, fill opacity=1] at (save_location) {\includegraphics[width=0.75cm]{images/pink_context.png}};
+}
+
+\onslide<8> {
+	\draw[->] (kern_source) to [out=180, in=270] (save_location);
+}
+
+\onslide<9-> {
+	%% kernel stack context
+	\node[inner sep=0pt, fill opacity=1] at (0, 2.72) (kern_target) {\includegraphics[width=0.75cm]{images/blue_context.png}};
+}
+
+\onslide<9> {
+	\draw[->] (load_location) to[in=30, out=270] (kern_target);
+}
+
+\onslide<10> {
+	\draw[->] (kern_target) to[out=315, in=45] (cpu);
+
+	%% CPU
+	\node[inner sep=0pt, minimum width=0.8cm, minimum height=0.7cm] at (cpu) {\includegraphics[width=0.75cm]{images/blue_context.png}};
+}
+
+
+\end{tikzpicture}
