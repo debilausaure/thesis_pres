@@ -128,7 +128,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Pip, un noyau minimaliste aux garanties fortes}
+	\frametitle{Pip, un noyau minimal aux garanties fortes}
 	\begin{itemize}
 		\item{Permet de créer des partitions de mémoire isolées les unes des autres}
 		\item{Isolation rendue possible par un dispositif matériel (MMU ou MPU selon les systèmes)}
@@ -205,24 +205,10 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Transferts de flot d'exécution au sein d'un système}
+	\frametitle{Transferts de flot d'exécution explicites au sein de Pip}
 
 	\begin{center}
 		\input{figures/system_calls.tex}
-	\end{center}
-\end{frame}
-\begin{frame}[fragile]
-	\frametitle{Transferts de flot d'exécution au sein d'un système}
-
-	\begin{center}
-		\input{figures/interrupt.tex}
-	\end{center}
-\end{frame}
-\begin{frame}[fragile]
-	\frametitle{Transferts de flot d'exécution au sein d'un système}
-
-	\begin{center}
-		\input{figures/fault.tex}
 	\end{center}
 \end{frame}
 
@@ -247,11 +233,19 @@
 \subsection{Généralisation aux fautes et aux interruptions}
 
 \begin{frame}[fragile]
-	\frametitle{Fautes}
+	\frametitle{Interruptions}
+
+	\begin{center}
+		\input{figures/interrupt.tex}
+	\end{center}
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Interruptions}
+	\frametitle{Fautes}
+
+	\begin{center}
+		\input{figures/fault.tex}
+	\end{center}
 \end{frame}
 
 %---------------------------------------------------------
@@ -368,7 +362,7 @@
 
 	\begin{definition}[Propriété d'ordonnançabilité]
 	\[
-		\forall ~t, t'. ~t < t' \implies \sum_{j \in \Gamma_{t, t'}}c_j \leq t' - t
+		\forall t, \forall t'. ~~t < t' \implies (\sum_{j \in \Gamma_{t, t'}}c_j)~~\leq~~t' - t
 	\]
 	\end{definition}
 \end{frame}
@@ -376,7 +370,7 @@
 \highlightedFrame[Trois étapes pour atteindre la propriété de bon fonctionnement de l'ordonnanceur par raffinement]{}
 
 \begin{frame}[fragile]
-	\frametitle{Politique d'ordonnancement Earliest Deadline First}
+	\frametitle{1\textsuperscript{ère} étape : Modélisation de la politique d'ordonnancement Earliest Deadline First}
 	\begin{block}{Politique d'ordonnancement EDF}
 		Soit $j$ un job arbitraire et $t$ un instant arbitraire, si le job $j$ s'exécute à l'instant $t$, alors pour chaque autre job $j'$ qui aurait pu s'exécuter à l'instant $t$, $d_j \leq d_{j'}$.
 	\end{block}
@@ -398,51 +392,49 @@
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Bon fonctionnement d'une fonction d'élection intermédiaire}
+	\frametitle{2\textsuperscript{nde} étape : Conception d'une fonction mathématique d'élection}
 
-	Implémentation d'une fonction d'élection idéalisée qui se comporte de la même manière que la fonction d'élection réelle.\\[0.5cm]
+	Implémentation d'une fonction d'élection (au sens mathématique) qui se comporte de la même manière que la procédure d'élection exécutable.\\[0.5cm]
 
-	La prochaine étape est de montrer que cette fonction d'élection idéalisée implémente la politique EDF définie précédemment.
+	La prochaine étape du raffinement est de montrer que cette fonction d'élection implémente la politique EDF définie précédemment.
 
-	\begin{block}{Fonction d'élection idéalisée implémente la politique EDF}
+	\begin{block}{Fonction d'élection implémente la politique EDF}
 	\vspace{-0.2cm}
 	\[
-		\forall t, \forall o, \forall s.~~
-		\texttt{idealised\_scheduler}(t) = (o, s) \implies
+		\forall t, \forall j, \forall s.~~
+		\texttt{functional\_scheduler}(t) = (j, s) \implies
 	\text{EdfPolicyUpTo}~t.
 	\]
 	\end{block}
 
 	\vspace{0.5cm}
 
-	De cette propriété découle la propriété de bon fonctionnement de la fonction d'élection idéalisée.
+	De cette propriété découle la propriété de bon fonctionnement de la fonction d'élection.
 
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Bon fonctionnement de la fonction d'élection}
+	\frametitle{3\textsuperscript{ème} étape : preuve de bon fonctionnement de la procédure exécutable d'élection}
 
-	Implémentation de la fonction d'élection réelle, traductible en C, \emph{reposant sur des primitives prédéfinies}.\\[0.5cm]
+	Implémentation de la procédure d'élection exécutable, traductible en C, \emph{reposant sur des primitives prédéfinies}.\\[0.5cm]
 
-	La dernière étape consiste à prouver que la fonction d'élection a le même comprtement que la fonction d'élection idéalisée.
+	La dernière étape du raffinement consiste à prouver que la procédure d'élection a le même comportement que la fonction d'élection.
 
-	\begin{block}{Fonction d'élection se comporte comme la fonction d'élection idéalisée}
+	\begin{block}{Procédure d'élection se comporte comme la fonction d'élection}
 		\vspace{-0.6cm}
 		\begin{gather*}
 			\forall t.\\
 			\{
 			    ~\textit{env} = E \land s = \textit{init}~
 			\}\\
-			(o, s') := \texttt{scheduler}~(t)\\
+			(j, s') := \texttt{scheduler}~(t)\\
 			\{
-			    ~\texttt{idealised\_scheduler}~(t) = (o,s')~
+			    ~\texttt{functional\_scheduler}~(t) = (j,s')~
 			\}
 		\end{gather*}
 	\end{block}
 
-	\vspace{0.5cm}
-
-	De cette propriété découle la propriété de bon fonctionnement de la fonction d'élection, et donc de notre ordonnanceur.
+	De cette propriété découle la propriété de bon fonctionnement de la procédure d'élection exécutable.
 
 \end{frame}
 
@@ -465,7 +457,7 @@
 %%%%	Abstraction des modèles de Pip
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Séparation des modèles de Pip du code}
+\section{Réflexions sur l'établissement de nouvelles preuves pour Pip}
 
 \begin{frame}[fragile]
 	\frametitle{Motivations}
