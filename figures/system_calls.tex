@@ -10,7 +10,7 @@
 		\draw[opacity=0.3, semithick] (root) -- (child2);
 		\draw[semithick] (child1) -- (gchild);
 	
-		\draw[<-, dashed] (child1.west) to [out=135, in=225] node [midway, left] {asks to open a file} (gchild.west);
+		\draw[<-, dashed] (child1.west) to [out=135, in=225] node [midway, left] {Demande d'ouvertue de fichier} (gchild.west);
 	}
 	\onslide<2> {	
 		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
@@ -23,7 +23,7 @@
 		\draw[opacity=0.3, semithick] (root) -- (child2);
 		\draw[semithick] (child1) -- (gchild);
 	
-		\draw[<-, dashed, opacity=0.3] (child1.west) to [out=135, in=225] node [midway, left, opacity=0.3] {asks to open a file} (gchild.west);
-		\draw[->, dashed] (child1.east) to [out=45 , in=315] node [midway, right] {file is opened} (gchild.east);
+		\draw[<-, dashed, opacity=0.3] (child1.west) to [out=135, in=225] node [midway, left, opacity=0.3] {Demande d'ouverture d'un fichier} (gchild.west);
+		\draw[->, dashed] (child1.east) to [out=45 , in=315] node [midway, right] {Le fichier a été ouvert,\\reprise de l'exécution} (gchild.east);
 	}
 \end{tikzpicture}
