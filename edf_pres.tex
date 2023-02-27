@@ -133,7 +133,7 @@
 		\item{Permet de créer des partitions de mémoire isolées les unes des autres}
 		\item{Isolation rendue possible par un dispositif matériel (MMU ou MPU selon les systèmes)}
 		\item{Muni d'une preuve formelle de préservation de l'isolation (bonne configuration du matériel)}
-		\item{Support des architectures x86 et Armv7}
+		\item{Support de familles d'architectures x86 et Armv7}
 	\end{itemize}
 \end{frame}
 
@@ -146,25 +146,29 @@
 
 \begin{frame}[fragile]
 	\frametitle{L'architecture de Pip}
-	\begin{itemize}
-		\item{Code des services écrit en Gallina, grâce à un shallow embedding de C}
-		\item{Le code des services est traduit en C grâce à un compilateur (Digger ou $\partial x$)}
-		\item{Services ensuite compilé avec le reste du noyau écrit en C et en assembleur}
-		\item{Les preuves portent directement sur le code des services, dévelopées dans l'assistant de preuve Coq}
-		(Faire un schéma)
-	\end{itemize}
+
+	\begin{center}
+		\input{figures/current_pip_architecture.tex}
+	\end{center}
+
+%	\begin{itemize}
+%		\item{Code des services écrit en Gallina, grâce à un shallow embedding de C}
+%		\item{Le code des services est traduit en C grâce à un compilateur (Digger ou $\partial x$)}
+%		\item{Services ensuite compilé avec le reste du noyau écrit en C et en assembleur}
+%		\item{Les preuves portent directement sur le code des services, dévelopées dans l'assistant de preuve Coq}
+%	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Historique des travaux sur le projet Pip}
-	Première génération de doctorants :
+	Première génération de doctorants travaillant sur les propriétés d'isolation :
 	\begin{itemize}
 		\item{Aspect système : conception du noyau}
 		\item{Aspect vérification : code des services et preuve}
 		\item{Aspect embarqué : travaux sur la cohabitation d'entités différentes au sein du système}
 	\end{itemize}
 
-	Manque cependant un service robuste de transfert de flot d'exécution entre les partitions
+	Problématique de partage du temps CPU à traiter
 \end{frame}
 
 \begin{frame}[fragile]
@@ -172,7 +176,7 @@
 	\begin{itemize}
 		\item{Service de transfert de flot d'exécution entre les partitions}
 		\item{Développement d'un ordonnanceur Earliest Deadline First dans une partition}
-		\item{Amélioration de l'architecture de Pip découplant le code des modèles d'isolation}
+		\item{Réflexions sur l'ajout de nouvelles propriétés à Pip}
 	\end{itemize}
 \end{frame}
 
@@ -255,7 +259,7 @@
 	\frametitle{Preuve de préservation de l'isolation}
 
 	\begin{itemize}
-		\item Preuve réalisée avec des modèles limités
+		\item Preuve complétée sur des modèles restreints
 		\item Preuve avec des modèles plus complets en cours
 	\end{itemize}
 \end{frame}
@@ -263,7 +267,7 @@
 \begin{frame}[fragile]
 	\frametitle{Limites de la preuve}
 
-	Preuve d'isolation peu pertinente pour ce service
+	Preuve d'isolation nécessaire, mais peu intéressante pour ce service
 
 	Preuve de bon fonctionnement plus adéquate, \textbf{mais} le code de Pip est lié aux modèles d'isolation
 \end{frame}
@@ -286,7 +290,7 @@
 	\end{itemize}
 	mais
 	\begin{itemize}
-		\item Preuve d'isolation peu pertinente
+		\item Preuve d'isolation peu intéressante
 		\item Utilisabilité est doutable, car seulement montré sur des exemples jouets
 	\end{itemize}
 \end{frame}
@@ -322,6 +326,9 @@
 \begin{frame}[fragile]
 	\frametitle{Illustration sur un arbre de partitions}
 
+	\begin{center}
+		\input{figures/pip_scheduling.tex}
+	\end{center}
 \end{frame}
 
 %------------------------------------------------------
@@ -463,8 +470,8 @@
 	\frametitle{Constat}
 	
 	\begin{itemize}
-		\item Réussir à prouver des propriétés non liées à l'isolation
-		\item Décorréler le code des services de Pip des modèles d'isolation
+		\item Besoin de montrer des propriétés non liées à l'isolation
+		\item Code des services de Pip corrélé aux modèles d'isolation
 	\end{itemize}
 \end{frame}
 
@@ -494,7 +501,17 @@
 \subsection{Perspectives liées à la nouvelle architecture}
 
 \begin{frame}[fragile]
-	\frametitle{Perspectives \& désillusions}
+	\frametitle{Bénéfices \& désillusions}
+
+	\begin{itemize}
+		\item Séparation nette entre le code des services et les modèles
+		\item Permet de raisonner sur \emph{d'autres modèles} que le modèle d'isolation
+		\item ... sans réécrire le code
+	\end{itemize}
+	\onslide<2> {
+		\vspace{1cm}
+		Ne permet cependant pas de fournir des preuves \emph{génériques} comme initialement espéré
+	}
 
 \end{frame}
 
@@ -505,11 +522,29 @@
 \section{Conclusion}
 
 \begin{frame}[fragile]
-coucou
+
+	Besoins de réponses aux problèmatiques de partage du temps CPU dans Pip
+
+	\begin{itemize}
+		\item Service de transfert de flot d'exécution dans Pip
+			\begin{itemize}
+				\item transferts explicites, fautes et interruptions
+				\item au sein d'un unique service
+				\item preuve d'isolation réalisée
+			\end{itemize}
+		\item Implémentation formellement vérifiée d'un ordonnanceur EDF
+		\begin{itemize}
+			\item fonction d'élection formellement vérifiée
+			\item Exécution dans une partition de Pip
+			\item mais fonction d'élection non liée à Pip 
+		\end{itemize}
+		\item Preuve de concept d'architecture permettant de montrer d'autres propriétés
+	\end{itemize}
+
 \end{frame}
 
 \begin{frame}[fragile]
-coucou
+	Des questions ?
 \end{frame}
 
 \sectionNotInTocAndNavigation{Merci pour votre attention}
