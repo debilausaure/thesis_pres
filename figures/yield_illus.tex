@@ -1,5 +1,7 @@
 \begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, every node/.style={transform shape}]
 
+	\definecolor{bluecolor}{RGB}{138, 138, 255}
+	\definecolor{pinkcolor}{RGB}{255, 138, 138}
 %% CPU box
 	\node[minimum width=0.8cm, minimum height=0.8cm] (cpu) at (0, 0) {};
 %\node[draw, ultra thin, drop shadow, fill=white, minimum height=1.3cm, minimum width=1.3cm] (cpu) at (0, 0) {};
@@ -9,6 +11,7 @@
 \onslide<1-> {
 	%% CPU
 	\node[inner sep=0pt, fill opacity=1] at (cpu) {\includegraphics[width=1.5cm]{images/cpu.png}};
+	\node[below=0.5cm of cpu] {CPU};
 	%% Kernel box
 	\node[draw, ultra thin, drop shadow, fill=white, minimum height=2cm, minimum width=0.8cm, above=0.7cm of cpu] (kern_stack) {};
 	%% Kernel box label
@@ -64,7 +67,7 @@
 
 \onslide<4-> {
 	%% Source
-	\node[draw, drop shadow, ultra thin, fill=red!20, minimum height=3cm, minimum width=1.5cm] (source) at (-4,3) {};
+	\node[draw, drop shadow, ultra thin, fill=pinkcolor, minimum height=3cm, minimum width=1.5cm] (source) at (-4,3) {};
 	\node[draw, ultra thin, fill=white, minimum height=2.8cm, minimum width=1.5cm] at (source) {};
 	\node[above=0.3cm of source] {Source};
 }
@@ -88,7 +91,7 @@
 	      minimum width=1.4cm
 	] at (save_index) {\tiny{\texttt{@ctx}}};
 
-	\node[fill=red!20, left=0.2cm of save_index] {\scriptsize{\texttt{saveIdx}}};
+	\node[fill=pinkcolor, left=0.2cm of save_index] {\scriptsize{\texttt{saveIdx}}};
 
 	\node[above=0.1cm of save_index, fill=lightgray!60] {
 		\texttt{isAccessible(@ctx)}
@@ -99,7 +102,7 @@
 	%%save index
 	\node[draw,
 	      ultra thin,
-	      fill=red!20,
+	      fill=pinkcolor,
 	      drop shadow={
 	          shadow xshift=0.04cm,
 	          shadow yshift=-0.04cm
@@ -112,12 +115,12 @@
 	      minimum width=1.4cm
 	] at (save_index) {\tiny{\texttt{@ctx}}};
 
-	\node[fill=red!20, left=0.2cm of save_index] {\scriptsize{\texttt{saveIdx}}};
+	\node[fill=pinkcolor, left=0.2cm of save_index] {\scriptsize{\texttt{saveIdx}}};
 
 	%%save location
 	\node[draw,
 	      drop shadow,
-	      fill=red!20,
+	      fill=pinkcolor,
 	      minimum height=1cm,
 	      minimum width=0.8cm
 	] (save_location) at (-1.5, 4) {};
@@ -144,7 +147,7 @@
 
 \onslide<6-> {
 	%% Cible
-	\node[draw, drop shadow, ultra thin, fill=blue!20, minimum height=3cm, minimum width=1.5cm] (target) at (4,3) {};
+	\node[draw, drop shadow, ultra thin, fill=bluecolor, minimum height=3cm, minimum width=1.5cm] (target) at (4,3) {};
 	\node[draw, ultra thin, fill=white, minimum height=2.8cm, minimum width=1.5cm] (target) at (4,3) {};
 	\node[above=0.3cm of target] {Cible};
 }
@@ -168,7 +171,7 @@
 	      minimum width=1.4cm
 	] at (load_index) {\tiny{\texttt{@ctx}}};
 
-	\node[fill=blue!20, right=0.2cm of load_index] {\scriptsize{\texttt{loadIdx}}};
+	\node[fill=bluecolor, right=0.2cm of load_index] {\scriptsize{\texttt{loadIdx}}};
 
 	\node[below=0.2cm of load_index, fill=lightgray!60] {
 		\texttt{isAccessible(@ctx)}
@@ -179,7 +182,7 @@
 	%%load index
 	\node[draw,
 	      ultra thin,
-	      fill=blue!20,
+	      fill=bluecolor,
 	      drop shadow={
 	          shadow xshift=0.04cm,
 	          shadow yshift=-0.04cm
@@ -196,7 +199,7 @@
 	\node[draw,
 	      ultra thin,
 	      drop shadow,
-	      fill=blue!20,
+	      fill=bluecolor,
 	      minimum height=1cm,
 	      minimum width=0.8cm
 	] (load_location) at (1.5, 4.5) {};
@@ -207,7 +210,7 @@
 	      minimum width=0.8cm
 	] at (load_location) {};
 
-	\node[fill=blue!20, right=0.2cm of load_index] {\scriptsize{\texttt{loadIdx}}};
+	\node[fill=bluecolor, right=0.2cm of load_index] {\scriptsize{\texttt{loadIdx}}};
 
 	%%load_index -> load_location
 	\draw[->, dashed] (load_index) to [out=180,in=0] (load_location);

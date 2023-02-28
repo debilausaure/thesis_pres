@@ -1,29 +1,47 @@
-\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, scale=0.6, every node/.style={transform shape}]
+\begin{tikzpicture}[>=triangle 45,font=\sffamily, every text node part/.style={align=center}, scale=0.55, every node/.style={transform shape}]
+	\definecolor{bluecolor}{RGB}{138, 138, 255}
+	\definecolor{pinkcolor}{RGB}{255, 138, 138}
 	\onslide<1> {
+		\node[draw, thick, minimum width=4cm, minimum height=2cm] (pip) at (0, -3) {Pip};
+
+		\draw[dashed] (-10.5, -1.5) -- (7, -1.5);
+		\node at (-9, -1) {Espace utilisateur};	
+		\node at (-9, -2) {Espace privilégié};	
+
 		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
-		\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
-		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+		\node[draw, thick, fill=bluecolor, minimum width=4cm, minimum height=2cm] (child1) at (-5, 3) {};
+		\node[draw, thick, fill=white, minimum width=3.6cm, minimum height=2cm] at (child1) {Linux};
+		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (5, 3) {FreeRTOS};
 	
-		\node[draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+		\node[draw, thick, fill=pinkcolor, minimum width=4cm, minimum height=2cm] (gchild) at (-5, 6) {};
+		\node[draw, thick, fill=white, minimum width=3.6cm, minimum height=2cm] at (gchild) {Shell};
 	
 		\draw[opacity=0.3, semithick] (root) -- (child1);
 		\draw[opacity=0.3, semithick] (root) -- (child2);
 		\draw[semithick] (child1) -- (gchild);
 	
-		\draw[<-, dashed] (child1.west) to [out=135, in=225] node [midway, left] {Demande d'ouvertue de fichier} (gchild.west);
+		\draw[<-, dashed] (child1.west) to [out=135, in=225] node [midway, left] {Demande d'ouverture de fichier} (gchild.west);
 	}
 	\onslide<2> {	
+		\node[draw, thick, minimum width=4cm, minimum height=2cm] (pip) at (0, -3) {Pip};
+
+		\draw[dashed] (-10.5, -1.5) -- (7, -1.5);
+		\node at (-9, -1) {Espace utilisateur};	
+		\node at (-9, -2) {Espace privilégié};	
+
 		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (root) at (0, 0) {Multiplexer};
-		\node[draw, thick, minimum width=4cm, minimum height=2cm] (child1) at (-4, 4) {Linux};
-		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (4, 4) {FreeRTOS};
+		\node[draw, thick, fill=pinkcolor, minimum width=4cm, minimum height=2cm] (child1) at (-5, 3) {};
+		\node[draw, thick, fill=white, minimum width=3.6cm, minimum height=2cm] at (child1) {Linux};
+		\node[opacity=0.3, draw, thick, minimum width=4cm, minimum height=2cm] (child2) at (5, 3) {FreeRTOS};
 	
-		\node[draw, thick, minimum width=4cm, minimum height=2cm] (gchild) at (-4, 8) {Shell};
+		\node[draw, thick, fill=bluecolor, minimum width=4cm, minimum height=2cm] (gchild) at (-5, 6) {};
+		\node[draw, thick, fill=white, minimum width=3.6cm, minimum height=2cm] at (gchild) {Shell};
 	
 		\draw[opacity=0.3, semithick] (root) -- (child1);
 		\draw[opacity=0.3, semithick] (root) -- (child2);
 		\draw[semithick] (child1) -- (gchild);
 	
-		\draw[<-, dashed, opacity=0.3] (child1.west) to [out=135, in=225] node [midway, left, opacity=0.3] {Demande d'ouverture d'un fichier} (gchild.west);
+		\draw[<-, dashed, opacity=0.3] (child1.west) to [out=135, in=225] node [midway, left, opacity=0.3] {Demande d'ouverture de fichier} (gchild.west);
 		\draw[->, dashed] (child1.east) to [out=45 , in=315] node [midway, right] {Le fichier a été ouvert,\\reprise de l'exécution} (gchild.east);
 	}
 \end{tikzpicture}
