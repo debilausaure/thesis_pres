@@ -41,7 +41,7 @@
 		\draw[opacity=0.3, semithick] (root) -- (child2);
 		\draw[semithick] (child1) -- (gchild);
 	
-		\draw[<-, dashed, opacity=0.3] (child1.west) to [out=135, in=225] node [midway, left, opacity=0.3] {Demande d'ouverture de fichier} (gchild.west);
+		\draw[<-, dashed, color=black!30] (child1.west) to [out=135, in=225] node [midway, left, color=black!30] {Demande d'ouverture de fichier} (gchild.west);
 		\draw[->, dashed] (child1.east) to [out=45 , in=315] node [midway, right] {Le fichier a été ouvert,\\reprise de l'exécution} (gchild.east);
 	}
 \end{tikzpicture}

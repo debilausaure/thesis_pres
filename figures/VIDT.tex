@@ -1,26 +1,31 @@
 \begin{tikzpicture}
 \node[minimum width=3cm, minimum height=3cm] (vidt) at (0,0) {};
-\node[above=0.1cm of vidt] {Partition VIDT};
-\node[above left=0.1cm of vidt] {No.};
+\node[above=0.1cm of vidt] {VIDT d'une partition};
 %\draw[dashed] (3.5, -1.5) -- (3.5, 1.5);
 %\draw[dashed] (6.5, -1.5) -- (6.5, 1.5);
-\node[draw, semithick, minimum width=3cm, minimum height=0.5cm] (ctx_ptr1) at (0,1.30) {pointeur de contexte};
-\node[left=0.2cm of ctx_ptr1] {\texttt{0}};
-\node[draw, semithick, minimum width=3cm, minimum height=0.5cm] (ctx_ptr2) at (0,0.73) {pointeur de contexte};
+\node[draw, semithick, minimum width=3cm, minimum height=0.5cm] (ctx_ptr1) at (0,1.30) {@ctx};
+\node[left=0.2cm of ctx_ptr1, minimum height=0.5cm] (top_number) {\texttt{0}};
+\node[above=0.1cm of top_number] {N°.};
+\node[draw, semithick, below=-0.01cm of ctx_ptr1, minimum width=3cm, minimum height=0.5cm] (ctx_ptr2) {@ctx};
 \node[left=0.2cm of ctx_ptr2] {\texttt{1}};
 \node[minimum width=3cm, minimum height=0.5cm] (dots) at (0,-0.2) {$\vdots$};
 \node[left=0.2cm of dots] {$\vdots$};
-\node[draw, minimum width=3cm, minimum height=1cm, pattern=south west lines] (ctx) at (5, 0.5) {};
-\node[draw, semithick, minimum width=3cm, minimum height=0.5cm] (ctx_ptr3) at (0,-1.36) {pointeur de contexte};
+\node[draw, minimum width=1cm, minimum height=1cm] (ctx) at (5.5, 0.5) {};
+\node[inner sep=0pt, fill opacity=1] at (ctx) {\includegraphics[width=1cm]{images/gray_context.png}};
+\node[draw, semithick, below=1.5cm of ctx_ptr2, minimum width=3cm, minimum height=0.5cm] (ctx_ptr3) {@ctx};
 \node[left=0.1cm of ctx_ptr3] {\texttt{255}};
-\node[below=0.02cm of ctx] {Contexte};
+\node[below=0.02cm of ctx] {Contexte d'exécution};
 %\node[above=0.6cm of ctx] {Partition memory};
-\node[draw, color=black!25, pattern color=black!25, minimum width=3cm, minimum height=1cm, pattern=south west lines] (ctx2) at (5, 2) {};
-\node[draw, color=black!25, pattern color=black!25, minimum width=3cm, minimum height=1cm, pattern=south west lines] (ctx3) at (5, -1.5) {};
+\node[draw, color=black!25, pattern color=black!25, minimum width=1cm, minimum height=1cm] (ctx2) at (4, 2.3) {};
+\node[inner sep=0pt, fill opacity=1] at (ctx2) {\includegraphics[width=1cm]{images/gray_context.png}};
+\node[inner sep=0pt, opacity=0.75, fill=white, minimum width=1cm, minimum height=1cm] at (ctx2) {};
+\node[draw, color=black!25, pattern color=black!25, minimum width=1cm, minimum height=1cm] (ctx3) at (4.7, -1.9) {};
+\node[inner sep=0pt, fill opacity=1] at (ctx3) {\includegraphics[width=1cm]{images/gray_context.png}};
+\node[inner sep=0pt, opacity=0.75, fill=white, minimum width=1cm, minimum height=1cm] at (ctx3) {};
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\draw[dashed] (ctx_ptr2.south west) -- (ctx_ptr3.north west);
-\draw[dashed] (ctx_ptr2.south east) -- (ctx_ptr3.north east);
-\draw[->, dotted] (ctx_ptr1.east) -- (ctx2.west);
+\draw[dashed, semithick] (ctx_ptr2.south west) -- (ctx_ptr3.north west);
+\draw[dashed, semithick] (ctx_ptr2.south east) -- (ctx_ptr3.north east);
+\draw[->, color=black!25] (ctx_ptr1.east) -- (ctx2.west);
 \draw[->] (ctx_ptr2.east) -- (ctx.west);
-\draw[->, dotted] (ctx_ptr3.east) -- (ctx3.west);
+\draw[->, color=black!25] (ctx_ptr3.east) -- (ctx3.west);
 \end{tikzpicture}
