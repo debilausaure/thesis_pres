@@ -36,6 +36,7 @@
 
 \definecolor{proofgreen}{RGB}{233,4,105}
 \definecolor{implementation}{RGB}{41,2,81}
+\definecolor{twitterblue}{RGB}{29, 155, 240}
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%	define content of title page
@@ -146,6 +147,25 @@
 \end{frame}
 
 \begin{frame}[fragile]
+	%\frametitle{Contexte général et portée des travaux}
+	\begin{centering}
+	Sam Curry \textcolor{gray}{(@samwcyo)} sur Twitter le 29 Novembre 2022
+	
+	\vspace{0.3cm}
+	
+	``We recently found a vulnerability affecting Hyundai and Genesis vehicles where we could remotely control the locks, engine, horn, headlights, and trunk of vehicles made after 2012.\\
+	To explain how it worked and how we found it, we have \textcolor{twitterblue}{@\_specters\_} as our mock car thief :''
+
+	\vspace{0.3cm}
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.5\textwidth]{images/hackerman.png}
+	\end{figure}
+	\end{centering}
+\end{frame}
+
+\begin{frame}[fragile]
 	\frametitle{Pip, un noyau minimal aux garanties fortes}
 	\begin{itemize}
 		\item{Permet de créer des partitions de mémoire isolées les unes des autres}
@@ -211,7 +231,7 @@
 \begin{frame}[fragile]
 	\frametitle{Motivations}
 	\begin{itemize}
-		\item{Gérer les cas limites non gérés par l'ancienne implémentation}
+		\item{Généraliser la précédente implémentation du service}
 		\item{Compléter la preuve de préservation de l'isolation des services fournis par Pip}
 		\item{Éprouver la méthodologie de Pip}
 	\end{itemize}
@@ -565,7 +585,11 @@
 \sectionNotInTocAndNavigation{Merci pour votre attention}
 
 \begin{frame}[fragile]
-coucou
+	\frametitle{Attributions}
+	\begin{itemize}
+		\item Template \LaTeX~beamer adapté de \href{https://github.com/vipowueb/minflat-beamer}{minflat-beamer} (\href{https://creativecommons.org/licenses/by-sa/4.0/}{CC BY-SA 4.0})
+		\item Icônes d'artistes \href{https://www.flaticon.com/free-icon/binary-code_647908}{Freepik} et \href{https://www.flaticon.com/free-icon/cpu_7058541}{NT Sookruay} gratuites pour un usage personnel avec attribution
+	\end{itemize}
 \end{frame}
 
 \end{document}
